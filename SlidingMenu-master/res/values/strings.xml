@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">hust去哪吃</string>
+    <string name="menu_settings">Settings</string>
+    <string name="tab_all">全部</string>
+    <string name="tab_route">美食路线</string>
+    <string name="tab_mylove">我喜欢</string>
+    <string name="tab_orders">我的订单</string>
+    <string name="tab_surrounds">周边</string>
+    <string name="tab_settings">设置</string>
+    <string name="tab_vote">投票</string>
+    <string name="tab_mirco">微生活</string>
+    <string name="tab_all_all">全部</string>
+    <string name="tab_all_small">小摊点</string>
+    <string name="tab_all_big">大餐馆</string>
+    <string name="tab_news_economy">吃货们</string>
+    <string name="tab_news_technology">科技</string>
+    <string name="tab_news_military">军事</string>
+    <string name="tab_news_nba">NBA</string>
+
+</resources>

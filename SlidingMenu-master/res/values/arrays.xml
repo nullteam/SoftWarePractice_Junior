@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+     <string-array name="tab_left_titles">
+        <item>@string/tab_all</item>
+        <item>@string/tab_mylove</item>
+        <item>@string/tab_orders</item>
+        <item>@string/tab_surrounds</item>
+        <item>@string/tab_settings</item>
+        <item>@string/tab_vote</item>
+         <item>@string/tab_mirco</item>
+    </string-array>
+
+     
+      <string-array name="tab_news_titles">
+        <item>@string/tab_all_all</item>
+        <item>@string/tab_all_big</item>
+        <item>@string/tab_all_small</item>
+        <item>@string/tab_news_economy</item>
+        <item>@string/tab_news_military</item>
+        <item>@string/tab_news_nba</item>
+         <item>@string/tab_news_technology</item>
+    </string-array>
+</resources>
