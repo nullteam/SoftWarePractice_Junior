@@ -18,7 +18,9 @@ import android.widget.Toast;
 import com.universer.HustWhereToEat.R;
 import com.universer.HustWhereToEat.http.HWAsyncHttpClient;
 import com.universer.HustWhereToEat.http.HWResponseHandler;
+import com.universer.HustWhereToEat.listener.OperationListener;
 import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
+import com.universer.operation.UserOperation;
 
 public class RegistActivity extends Activity {
 	private Button registBtn;
@@ -63,6 +65,21 @@ public class RegistActivity extends Activity {
 	}
 	
 	private void requestLogin(){
+		UserOperation op = new UserOperation();
+		op.regist(this,"", "", new OperationListener<String>(){
+			@Override
+			public void onSuccess() {
+				Intent intent = new Intent();
+				intent.putExtra("one", factorOneStr);
+				intent.putExtra("two", factorTwoStr);
+				intent.setClass(RegistActivity.this, SlidingActivity.class);
+				RegistActivity.this.startActivity(intent);
+			}
+			@Override
+			public void onFailure(String e) {
+				
+			}
+		});
 		HWAsyncHttpClient client = new HWAsyncHttpClient();
 		client.post(RegistActivity.this, "", null, new HWResponseHandler(){
 
@@ -92,7 +109,6 @@ public class RegistActivity extends Activity {
 
 			@Override
 			public void onFailure() {
-				// TODO Auto-generated method stub
 				super.onFailure();
 			}
 			

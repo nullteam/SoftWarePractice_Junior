@@ -22,7 +22,9 @@ import android.widget.Toast;
 import com.universer.HustWhereToEat.R;
 import com.universer.HustWhereToEat.http.HWAsyncHttpClient;
 import com.universer.HustWhereToEat.http.HWResponseHandler;
+import com.universer.HustWhereToEat.listener.OperationListener;
 import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
+import com.universer.operation.UserOperation;
 
 public class LoginActivity extends Activity {
 	private Button login_Button;
@@ -41,7 +43,6 @@ public class LoginActivity extends Activity {
 
 		init();
 		bindEvent();
-		
 	}
 	
 	private void init() {
@@ -100,45 +101,27 @@ public class LoginActivity extends Activity {
 	}
 	
 	private void requestLogin(){
-		HWAsyncHttpClient client = new HWAsyncHttpClient();
-		client.post(LoginActivity.this, "", null, new HWResponseHandler(){
-
-			@SuppressLint("NewApi")
+		UserOperation opert = new UserOperation();
+		opert.login(this,factorOneStr, factorTwoStr, new OperationListener<String>(){
 			@Override
-			public void onSuccess(JSONObject jo) {
-				try {
-					String result = jo.getString("result");
-					if(result.equals("")){
-						
-					}else{
-						SharedPreferences accountsPrefs = SharedPreferencesUtil.
-								setUserSharedPreference(LoginActivity.this, factorOneStr);
-						
-						Editor editor=accountsPrefs.edit();
-						editor.putString("passWord", factorTwoStr);
-						editor.commit();
-						accountsPrefs = SharedPreferencesUtil.setUserSharedPreference(LoginActivity.this, factorOneStr);
-						editor=accountsPrefs.edit();
-						editor.putString("passWord", factorTwoStr);
-						editor.commit();
-						Intent intent = new Intent();
-						intent.putExtra("one", factorOneStr);
-						intent.putExtra("two", factorTwoStr);
-						intent.setClass(LoginActivity.this, SlidingActivity.class);
-						LoginActivity.this.startActivity(intent);
-					}
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-				super.onSuccess(jo);
-			}
-
-			@Override
-			public void onFailure() {
-				// TODO Auto-generated method stub
-				super.onFailure();
+			public void onSuccess() {
+				Intent intent = new Intent();
+				intent.putExtra("one", factorOneStr);
+				intent.putExtra("two", factorTwoStr);
+				intent.setClass(LoginActivity.this, SlidingActivity.class);
+				LoginActivity.this.startActivity(intent);
 			}
 			
+			@Override
+			public void onFailure(String e) {
+				if(e.equals("1")){
+					Toast.makeText(LoginActivity.this,"账号不存在", Toast.LENGTH_SHORT).show();
+				}else if(e.equals("2")){
+					Toast.makeText(LoginActivity.this,"密码错误", Toast.LENGTH_SHORT).show();
+				}else{
+					Toast.makeText(LoginActivity.this,"网络错误", Toast.LENGTH_SHORT).show();
+				}
+			}
 		});
 	}
 

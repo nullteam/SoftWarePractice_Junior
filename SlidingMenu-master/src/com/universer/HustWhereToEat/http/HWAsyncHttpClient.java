@@ -39,7 +39,6 @@ public class HWAsyncHttpClient {
 						if (!data.has("error")) {
 							handler.onSuccess(data);
 						} else {
-							
 							handler.onFailure();
 						}
 					}
