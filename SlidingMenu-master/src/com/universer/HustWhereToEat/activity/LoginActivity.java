@@ -103,6 +103,7 @@ public class LoginActivity extends Activity {
 		HWAsyncHttpClient client = new HWAsyncHttpClient();
 		client.post(LoginActivity.this, "", null, new HWResponseHandler(){
 
+			@SuppressLint("NewApi")
 			@Override
 			public void onSuccess(JSONObject jo) {
 				try {
@@ -115,6 +116,11 @@ public class LoginActivity extends Activity {
 						
 						Editor editor=accountsPrefs.edit();
 						editor.putString("passWord", factorTwoStr);
+						editor.commit();
+						accountsPrefs = SharedPreferencesUtil.setUserSharedPreference(LoginActivity.this, factorOneStr);
+						editor=accountsPrefs.edit();
+						editor.putString("passWord", factorTwoStr);
+						editor.commit();
 						Intent intent = new Intent();
 						intent.putExtra("one", factorOneStr);
 						intent.putExtra("two", factorTwoStr);
@@ -154,7 +160,6 @@ public class LoginActivity extends Activity {
 		}
 
 		return false;
-
 	}
 
 	/** 监听对话框里面的button点击事件 */

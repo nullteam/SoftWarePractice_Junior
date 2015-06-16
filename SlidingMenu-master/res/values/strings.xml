@@ -18,5 +18,8 @@
     <string name="tab_news_technology">科技</string>
     <string name="tab_news_military">军事</string>
     <string name="tab_news_nba">NBA</string>
+    <string name="title_activity_regist">RegistActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
