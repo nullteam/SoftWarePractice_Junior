@@ -16,6 +16,7 @@ public class MyOrdersFragment extends Fragment {
 	private TextView mTopTitleView;
 	private ImageView mTopBackView;
 	
+	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
