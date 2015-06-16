@@ -10,6 +10,7 @@ import android.content.Context;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.universer.HustWhereToEat.util.Constant;
 
 public class HWAsyncHttpClient {
 	private static AsyncHttpClient mClient = new AsyncHttpClient();
@@ -22,7 +23,7 @@ public class HWAsyncHttpClient {
 		
 	}
 	public void post(Context mContext,String url,RequestParams params,final HWResponseHandler handler) {
-		mClient.post(mContext, url, params, new AsyncHttpResponseHandler() {
+		mClient.post(mContext, Constant.BASE_URL+url, params, new AsyncHttpResponseHandler() {
 			
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
