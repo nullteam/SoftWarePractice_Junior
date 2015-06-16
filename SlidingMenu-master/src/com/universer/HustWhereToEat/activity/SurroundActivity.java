@@ -40,7 +40,7 @@ public class SurroundActivity extends Activity {
 	private List<OverlayItem> itemList = new ArrayList<OverlayItem>();
 	private List<Restaurant> restaurantList = new ArrayList<Restaurant>();
 	private PopupOverlay itemPopLay;
-	public static final String MAPKEY = "E3466274d2406295cc220c9b43e516d5";
+	public static final String MAPKEY = "2yEzSULUyevqo4nCvyRFY5Hd";
 	private View restautrantPopView;
 	private BDLocationListener mLocationListener = new BDLocationListener() {
 
