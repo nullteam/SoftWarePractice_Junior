@@ -2,7 +2,6 @@ package com.universer.HustWhereToEat.model;
 
 import java.util.List;
 
-import com.baidu.platform.comapi.basestruct.GeoPoint;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.misc.BaseDaoEnabled;
 import com.j256.ormlite.table.DatabaseTable;
@@ -12,7 +11,7 @@ public class Restaurant extends BaseDaoEnabled<Restaurant, String> {
 
 	public static int BIG = 0;
 	public static int SMALL = 1;
-	@DatabaseField(generatedId = true)
+	@DatabaseField(generatedId = false)
 	private String id;
 	@DatabaseField
 	private String name;
@@ -24,6 +23,7 @@ public class Restaurant extends BaseDaoEnabled<Restaurant, String> {
 	private String address;
 	@DatabaseField
 	private String phone;
+	//comment去掉
 	@DatabaseField
 	private String comment;
 	@DatabaseField
@@ -31,15 +31,15 @@ public class Restaurant extends BaseDaoEnabled<Restaurant, String> {
 	@DatabaseField
 	private int longtitude;
 	private List<String> commentList;// 应该是个List集合 这里先不做这个处理
-	private GeoPoint point;
-
-	public GeoPoint getPoint() {
-		return point;
-	}
-
-	public void setPoint(int latitude,int longtitude) {
-		this.point = new GeoPoint(latitude, longtitude);
-	}
+//	private GeoPoint point;
+//
+//	public GeoPoint getPoint() {
+//		return point;
+//	}
+//
+//	public void setPoint(int latitude,int longtitude) {
+//		this.point = new GeoPoint(latitude, longtitude);
+//	}
 
 	public Restaurant(String name, String imageUrl, int type, String address,
 			String phone, List<String> commentList) {
@@ -109,8 +109,8 @@ public class Restaurant extends BaseDaoEnabled<Restaurant, String> {
 		this.comment = comment;
 	}
 
-	public void setPoint(GeoPoint geoPoint) {
-		this.point = geoPoint;
-	}
+//	public void setPoint(GeoPoint geoPoint) {
+//		this.point = geoPoint;
+//	}
 
 }
