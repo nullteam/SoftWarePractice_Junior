@@ -56,16 +56,16 @@ public class UserOperation {
 	
 	public void login(final Context context,final String name, final String password,
 			final OperationListener<String> listener) {
-		String url = null;
+		String url = "/userLogin";
 		HWAsyncHttpClient client = new HWAsyncHttpClient();
 		RequestParams params = new RequestParams();
-		params.put("name", name);
+		params.put("username", name);
 		params.put("password", password);
 		client.post(null, url, params, new HWResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject jo) {
 				try {
-					String code = jo.getString("result");
+					String code = jo.getString("loginResult");
 					if (code.equals("0")) {
 						listener.onSuccess();
 						SharedPreferences accountsPrefs = SharedPreferencesUtil.
