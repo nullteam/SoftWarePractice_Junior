@@ -17,16 +17,16 @@ import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
 public class UserOperation {
 	public void regist(final Context context,final String name, final String password,
 			final OperationListener<String> listener) {
-		String url = null;
+		String url = "/userRegister";
 		HWAsyncHttpClient client = new HWAsyncHttpClient();
 		RequestParams params = new RequestParams();
-		params.put("name", name);
+		params.put("username", name);
 		params.put("password", password);
 		client.post(null, url, params, new HWResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject jo) {
 				try {
-					String code = jo.getString("result");
+					String code = jo.getString("registerResult");
 					if (code.equals("0")) {
 						listener.onSuccess();
 						SharedPreferences accountsPrefs = SharedPreferencesUtil.
@@ -48,7 +48,7 @@ public class UserOperation {
 
 			@Override
 			public void onFailure() {
-				super.onFailure();
+				listener.onFailure();
 			}
 		});
 

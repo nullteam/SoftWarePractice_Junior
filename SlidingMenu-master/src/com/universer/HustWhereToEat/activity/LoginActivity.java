@@ -69,8 +69,8 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(LoginActivity.this, "该功能即将开放哦",
-						Toast.LENGTH_SHORT).show();
+				Intent i = new Intent(LoginActivity.this,RegistActivity.class);
+				startActivity(i);
 			}
 		});
 		forwardseeBtn.setOnClickListener(new OnClickListener() {
