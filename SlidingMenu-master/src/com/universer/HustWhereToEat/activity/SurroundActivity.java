@@ -38,19 +38,14 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.overlayutil.OverlayManager;
-import com.baidu.mapapi.overlayutil.PoiOverlay;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
 import com.baidu.mapapi.search.poi.PoiBoundSearchOption;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
-import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.universer.HustWhereToEat.R;
-import com.universer.HustWhereToEat.model.Restaurant;
-//假如用到位置提醒功能，需要import该类
-//如果使用地理围栏功能，需要import如下类
 
 public class SurroundActivity extends Activity implements
 		OnGetPoiSearchResultListener {
@@ -61,15 +56,7 @@ public class SurroundActivity extends Activity implements
 	private HashMap<LatLng, PoiInfo> poiLLMap = new HashMap<LatLng, PoiInfo>();
 	BitmapDescriptor bd;
 	View restautrantPopView;
-	// private MyLocationOverlay mOverlay;
-
 	private MyLocationData mLocationData;
-	// private SurroundOverlay overLays;
-	// private List<OverlayItem> itemList = new ArrayList<OverlayItem>();
-	private List<Restaurant> restaurantList = new ArrayList<Restaurant>();
-	// private PopupOverlay itemPopLay;
-	// public static final String MAPKEY = "2yEzSULUyevqo4nCvyRFY5Hd";
-	// private View restautrantPopView;
 	private BDLocationListener mLocationListener = new BDLocationListener() {
 		@Override
 		public void onReceiveLocation(BDLocation location) {
@@ -86,11 +73,8 @@ public class SurroundActivity extends Activity implements
 		}
 
 		private void animateToLoc(BDLocation location) {
-			double mlatitude = location.getLatitude();
-			double mlongitude = location.getLongitude();
 			mLocationData = new MyLocationData.Builder()
 					.accuracy(location.getRadius())
-					// 此处设置开发者获取到的方向信息，顺时针0-360
 					.direction(100).latitude(location.getLatitude())
 					.longitude(location.getLongitude()).build();
 			mBaiduMap.setMyLocationData(mLocationData);
@@ -98,16 +82,6 @@ public class SurroundActivity extends Activity implements
 					location.getLongitude());
 			MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
 			mBaiduMap.animateMapStatus(u);
-			// Log.v("LOC", mLocationData.latitude + " " +
-			// mLocationData.longitude);
-			// for (int i = 0; i < restaurantList.size(); i++) {
-			// OverlayItem surroundItem = new OverlayItem(restaurantList
-			// .get(i).getPoint(), "item" + i, "item" + i);
-			// itemList.add(surroundItem);
-			// }
-			// overLays.addItem(itemList);
-			// mOverlay.setData(mLocationData);
-			// mapView.getOverlays().add(mOverlay);
 			mapView.refreshDrawableState();
 			initPoi();
 			searchPoi();
@@ -125,10 +99,6 @@ public class SurroundActivity extends Activity implements
 		findView();
 		initMap();
 		initLoc();
-		// initPoi();
-		// searchPoi();
-		// initMapSet();
-
 	}
 
 	private void initPoi() {
@@ -138,13 +108,6 @@ public class SurroundActivity extends Activity implements
 	}
 
 	private void searchPoi() {
-		// PoiNearbySearchOption option = new PoiNearbySearchOption();
-		// option.location(new LatLng(mLocationData.latitude,
-		// mLocationData.longitude));
-		// mPoiSearch.searchInCity((new PoiCitySearchOption())
-		// .city("武汉")
-		// .keyword("美食"));
-		// mPoiSearch.searchNearby(option.keyword("餐厅"));
 		PoiBoundSearchOption boundSearchOption = new PoiBoundSearchOption();
 		LatLng southwest = new LatLng(mLocationData.latitude - 0.01,
 				mLocationData.longitude - 0.012);// 西南
@@ -162,63 +125,6 @@ public class SurroundActivity extends Activity implements
 	}
 
 	private void initRestaurantData(BDLocation location) {
-		List<String> comments = new ArrayList<String>();
-		comments.add("好评");
-		comments.add("好评");
-		comments.add("好评");
-		comments.add("好评");
-		comments.add("好评");
-		comments.add("好评");
-
-		// for (int i = 0; i < 5; i++) {
-		// Restaurant res;
-		// if (i % 2 == 0) {
-		// res = new Restaurant("麦芽芗" + i, null, Restaurant.BIG, "华科生活门",
-		// "13098840196", null);
-		//
-		// } else {
-		// res = new Restaurant("鸡蛋灌饼" + i, null, Restaurant.SMALL,
-		// "华科南大门", "13098840196", null);
-		//
-		// }
-		Restaurant res;
-		{
-			// res = new Restaurant("麦芽芗", R.drawable.restaurant_laosichuan +
-			// "",
-			// Restaurant.SMALL, "华科生活门", "13098840196", comments);
-			// res.setPoint(new GeoPoint(
-			// (int) ((location.getLatitude() + 0 * 0.002) * 1e6),
-			// (int) ((location.getLongitude() + 0 * 0.002) * 1e6)));
-			// restaurantList.add(res);
-			// res = new Restaurant("西苑咖啡", R.drawable.restaurant_coffee + "",
-			// Restaurant.BIG, "华中科技大学西十一舍附近", "13098840196", comments);
-			// res.setPoint(new GeoPoint(
-			// (int) ((location.getLatitude() + 1 * 0.02) * 1e6),
-			// (int) ((location.getLongitude() + 1 * 0.02) * 1e6)));
-			// restaurantList.add(res);
-			// res = new Restaurant("鸭血粉丝", R.drawable.restaurant_yaxuefensi +
-			// "",
-			// Restaurant.SMALL, "华中科技大学南三门", "13098840196", comments);
-			// res.setPoint(new GeoPoint(
-			// (int) ((location.getLatitude() + 2 * 0.02) * 1e6),
-			// (int) ((location.getLongitude()) * 1e6)));
-			// restaurantList.add(res);
-			// res = new Restaurant("简朴田园寨(光谷航母店) ",
-			// R.drawable.restaurant_tianyuan + "", Restaurant.BIG,
-			// "华中科技大学南大门", "13098840196", comments);
-			// res.setPoint(new GeoPoint(
-			// (int) ((location.getLatitude() + 3 * 0.02) * 1e6),
-			// (int) ((location.getLongitude()) * 1e6)));
-			// restaurantList.add(res);
-			// res = new Restaurant("氧气层", R.drawable.restaurant_o2 + "",
-			// Restaurant.BIG, "华中科技大学西园食堂附近", "13098840196", comments);
-			// res.setPoint(new GeoPoint(
-			// (int) ((location.getLatitude() + 4 * 0.02) * 1e6),
-			// (int) ((location.getLongitude() - 4 * 0.002) * 1e6)));
-			// restaurantList.add(res);
-
-		}
-
 	}
 
 	private void initLoc() {
@@ -380,7 +286,6 @@ public class SurroundActivity extends Activity implements
 							};
 						InfoWindow mInfoWindow = new InfoWindow(BitmapDescriptorFactory.fromView(restautrantPopView),info.location, -47, listener);
 						mBaiduMap.showInfoWindow(mInfoWindow);
-//						Toast.makeText(SurroundActivity.this,info.name,Toast.LENGTH_SHORT).show();
 					}
 					
 					return true;
@@ -388,82 +293,4 @@ public class SurroundActivity extends Activity implements
 			});
 			return;
 		}
-	}
-
-	// private void initOverLay() {
-	// OverlayOptions options = new MarkerOptions()
-	// .icon(bd);
-	// Marker mMarker = (Marker) (mBaiduMap.addOverlay(options));
-	// }
-
-	private class MyPoiOverlay extends PoiOverlay {
-
-		public MyPoiOverlay(BaiduMap baiduMap) {
-			super(baiduMap);
-		}
-
-		@Override
-		public boolean onPoiClick(int index) {
-			super.onPoiClick(index);
-			PoiInfo poi = getPoiResult().getAllPoi().get(index);
-			// if (poi.hasCaterDetails) {
-			mPoiSearch.searchPoiDetail((new PoiDetailSearchOption())
-					.poiUid(poi.uid));
-			// }
-			return true;
-		}
-	}
-
-	// class SurroundOverlay extends ItemizedOverlay<OverlayItem> {
-	//
-	// public SurroundOverlay(Drawable mark, MapView mapView) {
-	// super(mark, mapView);
-	// }
-	//
-	// @Override
-	// protected boolean onTap(int index) {
-	// // 跳转至详细
-	// final Restaurant tempRes = restaurantList.get(index);
-	// itemPopLay = new PopupOverlay(mapView, new PopupClickListener() {
-	//
-	// @Override
-	// public void onClickedPopup(int index) {
-	// // TODO Auto-generated method stub
-	// Intent i = new Intent(SurroundActivity.this,
-	// DetailActivity.class);
-	// i.putExtra("ADDRESS", tempRes.getAddress());
-	// i.putExtra("PHONE", tempRes.getPhone());
-	// i.putExtra("NAME", tempRes.getName());
-	// i.putExtra("IMAGE", tempRes.getImageUrl());
-	// i.putStringArrayListExtra("COMMENT",
-	// (ArrayList<String>) tempRes.getCommentList());
-	// startActivity(i);
-	// }
-	// });
-	// initPopLayView(index);
-	// Bitmap[] bmps = new Bitmap[1];
-	// bmps[0] = convertViewToBitmap(restautrantPopView);
-	// itemPopLay.showPopup(bmps, tempRes.getPoint(), 32);
-	// return true;
-	// }
-	//
-	// @Override
-	// public boolean onTap(GeoPoint arg0, MapView arg1) {
-	// // TODO Auto-generated method stub
-	// if (itemPopLay != null) {
-	// itemPopLay.hidePop();
-	// }
-	// return false;
-	// }
-	//
-	// }
-	//
-//	 private void initPopLayView(int index) {
-//		 View restautrantPopView = getLayoutInflater().inflate(
-//		 R.layout.activity_surround_popview, null);
-//		 ((TextView) restautrantPopView.findViewById(R.id.popView_addressTxt))
-//		 .setText(address);
-//		 ((TextView) restautrantPopView.findViewById(R.id.popView_nameTxt))
-//		 .setText(name);
-//	 }
-}
+	}}
