@@ -43,6 +43,7 @@ import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
 import com.baidu.mapapi.search.poi.PoiBoundSearchOption;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
+import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.universer.HustWhereToEat.R;
@@ -74,8 +75,8 @@ public class SurroundActivity extends Activity implements
 
 		private void animateToLoc(BDLocation location) {
 			mLocationData = new MyLocationData.Builder()
-					.accuracy(location.getRadius())
-					.direction(100).latitude(location.getLatitude())
+					.accuracy(location.getRadius()).direction(100)
+					.latitude(location.getLatitude())
 					.longitude(location.getLongitude()).build();
 			mBaiduMap.setMyLocationData(mLocationData);
 			LatLng ll = new LatLng(location.getLatitude(),
@@ -196,13 +197,13 @@ public class SurroundActivity extends Activity implements
 		// 普通地图
 		mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
 		mBaiduMap.setOnMapClickListener(new OnMapClickListener() {
-			
+
 			@Override
 			public boolean onMapPoiClick(MapPoi arg0) {
 				mBaiduMap.hideInfoWindow();
 				return false;
 			}
-			
+
 			@Override
 			public void onMapClick(LatLng arg0) {
 				mBaiduMap.hideInfoWindow();
@@ -212,7 +213,16 @@ public class SurroundActivity extends Activity implements
 
 	@Override
 	public void onGetPoiDetailResult(PoiDetailResult result) {
-		Toast.makeText(SurroundActivity.this, result.getName()+"www", Toast.LENGTH_LONG).show();
+		   if (result.error != SearchResult.ERRORNO.NO_ERROR) {
+		        //详情检索失败
+		        // result.error请参考SearchResult.ERRORNO 
+		    } 
+		    else {
+		        //检索成功
+		    	Toast.makeText(SurroundActivity.this, result.getDetailUrl() + "www"+result.getType(),
+						Toast.LENGTH_LONG).show();
+		    }
+		
 	}
 
 	@Override
@@ -254,33 +264,40 @@ public class SurroundActivity extends Activity implements
 				public boolean onMarkerClick(Marker marker) {
 
 					final PoiInfo info = poiLLMap.get(marker.getPosition());
-					if(info != null) {
+					if (info != null) {
 						OnInfoWindowClickListener listener = null;
 						restautrantPopView = getLayoutInflater().inflate(
-								 R.layout.activity_surround_popview, null);
-								 ((TextView) restautrantPopView.findViewById(R.id.popView_addressTxt))
-								 .setText(info.address);
-								 ((TextView) restautrantPopView.findViewById(R.id.popView_nameTxt))
-								 .setText(info.name);
+								R.layout.activity_surround_popview, null);
+						((TextView) restautrantPopView
+								.findViewById(R.id.popView_addressTxt))
+								.setText(info.address);
+						((TextView) restautrantPopView
+								.findViewById(R.id.popView_nameTxt))
+								.setText(info.name);
+						mPoiSearch.searchPoiDetail((new PoiDetailSearchOption()).poiUid(info.uid));
 						listener = new OnInfoWindowClickListener() {
-								public void onInfoWindowClick() {
-									 Intent i = new Intent(SurroundActivity.this,
-									 DetailActivity.class);
-									 i.putExtra("ADDRESS", info.address);
-									 i.putExtra("PHONE", info.phoneNum);
-									 i.putExtra("NAME", info.name);
-									 i.putExtra("ID", info.uid);
-									 mBaiduMap.hideInfoWindow();
-									 startActivity(i);
-								}
-							};
-						InfoWindow mInfoWindow = new InfoWindow(BitmapDescriptorFactory.fromView(restautrantPopView),info.location, -47, listener);
+							public void onInfoWindowClick() {
+								Intent i = new Intent(SurroundActivity.this,
+										DetailActivity.class);
+								i.putExtra("ADDRESS", info.address);
+								i.putExtra("PHONE", info.phoneNum);
+								i.putExtra("NAME", info.name);
+								i.putExtra("ID", info.uid);
+								mBaiduMap.hideInfoWindow();
+								startActivity(i);
+							}
+						};
+						InfoWindow mInfoWindow = new InfoWindow(
+								BitmapDescriptorFactory
+										.fromView(restautrantPopView),
+								info.location, -47, listener);
 						mBaiduMap.showInfoWindow(mInfoWindow);
 					}
-					
+
 					return true;
 				}
 			});
 			return;
 		}
-	}}
+	}
+}
