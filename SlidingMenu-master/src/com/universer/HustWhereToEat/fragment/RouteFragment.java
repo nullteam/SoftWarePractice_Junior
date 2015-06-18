@@ -1,5 +1,6 @@
 package com.universer.HustWhereToEat.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.universer.HustWhereToEat.R;
+import com.universer.HustWhereToEat.activity.RoutelineActivity;
 import com.universer.HustWhereToEat.activity.SlidingActivity;
 
 public class RouteFragment extends Fragment {
@@ -26,6 +28,7 @@ public class RouteFragment extends Fragment {
 		mTopTitleView = (TextView) showLeft.findViewById(R.id.head_layout_text);
 		mTopTitleView.setText(getString(R.string.tab_route));
 		mTopBackView = (ImageView) showLeft.findViewById(R.id.head_layout_back);
+		getActivity().startActivity(new Intent(getActivity(),RoutelineActivity.class));
 //		mTopBackView.setBackgroundResource(R.drawable.biz_vote_back);
 		return view;
 	}
