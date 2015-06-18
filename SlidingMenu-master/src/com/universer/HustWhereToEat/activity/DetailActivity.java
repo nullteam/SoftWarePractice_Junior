@@ -27,7 +27,7 @@ public class DetailActivity extends Activity {
 	private ImageView restautantImg;
 	private ListView commentListView;
 	private Intent mIntent;
-	List<String> comments;
+//	List<String> comments;
 	private ListAdapter mListAdapter;
 
 	@Override
@@ -46,94 +46,94 @@ public class DetailActivity extends Activity {
 	private void initView() {
 
 		String name = mIntent.getStringExtra("NAME");
-		String url = mIntent.getStringExtra("IMAGE");
+//		String url = mIntent.getStringExtra("IMAGE");
 		String address = mIntent.getStringExtra("ADDRESS");
 		final String phone = mIntent.getStringExtra("PHONE");
-		comments = mIntent.getStringArrayListExtra("COMMENT");
-		Log.v("URL", url);
-		restautantImg.setImageResource(Integer.parseInt(url));
+//		comments = mIntent.getStringArrayListExtra("COMMENT");
+//		Log.v("URL", url);
+//		restautantImg.setImageResource(Integer.parseInt(url));
 		addressTxt.setText(address);
 		phoneTxt.setText(phone);
 		nameTxt.setText(name);
-		mListAdapter = new ListAdapter() {
-
-			@Override
-			public void unregisterDataSetObserver(DataSetObserver observer) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void registerDataSetObserver(DataSetObserver observer) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public boolean isEmpty() {
-				// TODO Auto-generated method stub
-				return comments.size() == 0;
-			}
-
-			@Override
-			public boolean hasStableIds() {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public int getViewTypeCount() {
-				// TODO Auto-generated method stub
-				return 1;
-			}
-
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
-
-				convertView = new TextView(DetailActivity.this);
-				;
-				((TextView) convertView).setMinHeight(40);
-				((TextView) convertView).setText(comments.get(position));
-				return convertView;
-			}
-
-			@Override
-			public int getItemViewType(int position) {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
-			@Override
-			public long getItemId(int position) {
-				// TODO Auto-generated method stub
-				return position;
-			}
-
-			@Override
-			public Object getItem(int position) {
-				// TODO Auto-generated method stub
-				return comments.get(position);
-			}
-
-			@Override
-			public int getCount() {
-				// TODO Auto-generated method stub
-				return comments.size();
-			}
-
-			@Override
-			public boolean isEnabled(int position) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public boolean areAllItemsEnabled() {
-				// TODO Auto-generated method stub
-				return false;
-			}
-		};
-		commentListView.setAdapter(mListAdapter);
+//		mListAdapter = new ListAdapter() {
+//
+//			@Override
+//			public void unregisterDataSetObserver(DataSetObserver observer) {
+//				// TODO Auto-generated method stub
+//
+//			}
+//
+//			@Override
+//			public void registerDataSetObserver(DataSetObserver observer) {
+//				// TODO Auto-generated method stub
+//
+//			}
+//
+//			@Override
+//			public boolean isEmpty() {
+//				// TODO Auto-generated method stub
+//				return comments.size() == 0;
+//			}
+//
+//			@Override
+//			public boolean hasStableIds() {
+//				// TODO Auto-generated method stub
+//				return false;
+//			}
+//
+//			@Override
+//			public int getViewTypeCount() {
+//				// TODO Auto-generated method stub
+//				return 1;
+//			}
+//
+//			@Override
+//			public View getView(int position, View convertView, ViewGroup parent) {
+//
+//				convertView = new TextView(DetailActivity.this);
+//				;
+//				((TextView) convertView).setMinHeight(40);
+//				((TextView) convertView).setText(comments.get(position));
+//				return convertView;
+//			}
+//
+//			@Override
+//			public int getItemViewType(int position) {
+//				// TODO Auto-generated method stub
+//				return 0;
+//			}
+//
+//			@Override
+//			public long getItemId(int position) {
+//				// TODO Auto-generated method stub
+//				return position;
+//			}
+//
+//			@Override
+//			public Object getItem(int position) {
+//				// TODO Auto-generated method stub
+//				return comments.get(position);
+//			}
+//
+//			@Override
+//			public int getCount() {
+//				// TODO Auto-generated method stub
+//				return comments.size();
+//			}
+//
+//			@Override
+//			public boolean isEnabled(int position) {
+//				// TODO Auto-generated method stub
+//				return false;
+//			}
+//
+//			@Override
+//			public boolean areAllItemsEnabled() {
+//				// TODO Auto-generated method stub
+//				return false;
+//			}
+//		};
+//		commentListView.setAdapter(mListAdapter);
 		orderBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
