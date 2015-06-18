@@ -33,7 +33,6 @@
     <!-- 使用定位功能所需权限,demo已集成百度定位SDK,不使用定位功能可去掉以下6项 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" >
     </uses-permission>
-
     <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" >
     </uses-permission>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" >
@@ -66,9 +65,10 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
-    <meta-data  
-        android:name="com.baidu.lbsapi.API_KEY"  
-        android:value="fywGF23ogqlXo4Ta2k4tyIGb" />  
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="fywGF23ogqlXo4Ta2k4tyIGb" />
+
         <activity android:name=".activity.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -95,6 +95,8 @@
             android:process=":remote" >
         </service>
 
+        <activity android:name="com.universer.HustWhereToEat.activity.RoutelineActivity" >
+        </activity>
         <activity
             android:name="com.universer.HustWhereToEat.activity.RegistActivity"
             android:label="@string/title_activity_regist" >
