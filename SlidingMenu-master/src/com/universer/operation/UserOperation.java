@@ -93,4 +93,11 @@ public class UserOperation {
 		});
 
 	}
+	
+	public void addOrder(final Context context,final String code,
+			final String userID, final String retaurantID,
+			final String orderNum,final String retaurantName,final String retaurantAddress,
+			final String retaurantPhone,final OperationListener<String> listener) {
+		String url = "/processOrder";
+	}
 }

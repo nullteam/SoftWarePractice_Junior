@@ -1,16 +1,10 @@
 package com.universer.HustWhereToEat.activity;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.database.DataSetObserver;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -24,11 +18,15 @@ public class DetailActivity extends Activity {
 	private TextView addressTxt;
 	private TextView phoneTxt;
 	private TextView nameTxt;
+	private TextView numTxt;
+	private Button addBtn;
+	private Button reduceBtn;
 	private ImageView restautantImg;
 	private ListView commentListView;
 	private Intent mIntent;
 //	List<String> comments;
 	private ListAdapter mListAdapter;
+	private int num = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +46,7 @@ public class DetailActivity extends Activity {
 		String name = mIntent.getStringExtra("NAME");
 //		String url = mIntent.getStringExtra("IMAGE");
 		String address = mIntent.getStringExtra("ADDRESS");
+		String restaurantID = mIntent.getStringExtra("UID");
 		final String phone = mIntent.getStringExtra("PHONE");
 //		comments = mIntent.getStringArrayListExtra("COMMENT");
 //		Log.v("URL", url);
@@ -55,93 +54,37 @@ public class DetailActivity extends Activity {
 		addressTxt.setText(address);
 		phoneTxt.setText(phone);
 		nameTxt.setText(name);
-//		mListAdapter = new ListAdapter() {
-//
-//			@Override
-//			public void unregisterDataSetObserver(DataSetObserver observer) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//
-//			@Override
-//			public void registerDataSetObserver(DataSetObserver observer) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//
-//			@Override
-//			public boolean isEmpty() {
-//				// TODO Auto-generated method stub
-//				return comments.size() == 0;
-//			}
-//
-//			@Override
-//			public boolean hasStableIds() {
-//				// TODO Auto-generated method stub
-//				return false;
-//			}
-//
-//			@Override
-//			public int getViewTypeCount() {
-//				// TODO Auto-generated method stub
-//				return 1;
-//			}
-//
-//			@Override
-//			public View getView(int position, View convertView, ViewGroup parent) {
-//
-//				convertView = new TextView(DetailActivity.this);
-//				;
-//				((TextView) convertView).setMinHeight(40);
-//				((TextView) convertView).setText(comments.get(position));
-//				return convertView;
-//			}
-//
-//			@Override
-//			public int getItemViewType(int position) {
-//				// TODO Auto-generated method stub
-//				return 0;
-//			}
-//
-//			@Override
-//			public long getItemId(int position) {
-//				// TODO Auto-generated method stub
-//				return position;
-//			}
-//
-//			@Override
-//			public Object getItem(int position) {
-//				// TODO Auto-generated method stub
-//				return comments.get(position);
-//			}
-//
-//			@Override
-//			public int getCount() {
-//				// TODO Auto-generated method stub
-//				return comments.size();
-//			}
-//
-//			@Override
-//			public boolean isEnabled(int position) {
-//				// TODO Auto-generated method stub
-//				return false;
-//			}
-//
-//			@Override
-//			public boolean areAllItemsEnabled() {
-//				// TODO Auto-generated method stub
-//				return false;
-//			}
-//		};
-//		commentListView.setAdapter(mListAdapter);
+	}
+	
+	private void bindEvents() {
+		addBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				num++;
+				numTxt.setText(Integer.toString(num));
+			}
+		});
+		
+		reduceBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(num > 0){
+					num--;
+					numTxt.setText(Integer.toString(num));
+				}
+			}
+		});
+		
 		orderBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"
-						+ phone));
-				DetailActivity.this.startActivity(intent);
+				
+//				Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"
+//						+ phone));
+//				DetailActivity.this.startActivity(intent);
 			}
 		});
 	}
@@ -153,6 +96,9 @@ public class DetailActivity extends Activity {
 		phoneTxt = (TextView) findViewById(R.id.activity_detail_phoneTxt);
 		nameTxt = (TextView) findViewById(R.id.detail_nameTxt);
 		commentListView = (ListView) findViewById(R.id.activity_detail_commentListView);
+		numTxt = (TextView)findViewById(R.id.num_txt);
+		addBtn = (Button)findViewById(R.id.add_bt);
+		reduceBtn = (Button)findViewById(R.id.reduce_bt);
 	}
 
 	@Override

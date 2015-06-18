@@ -210,20 +210,9 @@ public class SurroundActivity extends Activity implements
 		});
 	}
 
-	public static Bitmap convertViewToBitmap(View view) {
-		view.setDrawingCacheEnabled(false);
-		view.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
-				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-		view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-		view.buildDrawingCache();
-		Bitmap cacheBitmap = view.getDrawingCache();
-		Bitmap bitmap = Bitmap.createBitmap(cacheBitmap);
-		view.destroyDrawingCache();
-		return bitmap;
-	}
-
 	@Override
 	public void onGetPoiDetailResult(PoiDetailResult result) {
+		Toast.makeText(SurroundActivity.this, result.getName()+"www", Toast.LENGTH_LONG).show();
 	}
 
 	@Override
@@ -280,6 +269,7 @@ public class SurroundActivity extends Activity implements
 									 i.putExtra("ADDRESS", info.address);
 									 i.putExtra("PHONE", info.phoneNum);
 									 i.putExtra("NAME", info.name);
+									 i.putExtra("ID", info.uid);
 									 mBaiduMap.hideInfoWindow();
 									 startActivity(i);
 								}
