@@ -1,9 +1,15 @@
 package com.universer.HustWhereToEat.activity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
@@ -13,16 +19,33 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BaiduMap.OnMapClickListener;
+import com.baidu.mapapi.map.BaiduMap.OnMarkerClickListener;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.InfoWindow.OnInfoWindowClickListener;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.overlayutil.DrivingRouteOverlay;
+import com.baidu.mapapi.overlayutil.OverlayManager;
 import com.baidu.mapapi.overlayutil.TransitRouteOverlay;
+import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
+import com.baidu.mapapi.search.poi.PoiBoundSearchOption;
+import com.baidu.mapapi.search.poi.PoiDetailResult;
+import com.baidu.mapapi.search.poi.PoiResult;
+import com.baidu.mapapi.search.poi.PoiSearch;
+import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
 import com.baidu.mapapi.search.route.DrivingRouteResult;
 import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
 import com.baidu.mapapi.search.route.PlanNode;
@@ -34,13 +57,119 @@ import com.universer.HustWhereToEat.R;
 
 public class RoutelineActivity extends Activity implements
 		OnGetRoutePlanResultListener {
+	private final static int ROUTE_BUS = 0;
+	private final static int ROUTE_DRIVE = 1;
 	private BaiduMap mBaiduMap = null;
 	private MapView mapView = null;
 	private RoutePlanSearch mSearch = null; // 搜索模块，也可去掉地图模块独立使用
 	private MyLocationData mLocationData = null;
 	private LatLng startLocation = null;
 	private LatLng endLocation = null;
+	BitmapDescriptor bd;
+	private HashMap<LatLng, PoiInfo> poiLLMap = new HashMap<LatLng, PoiInfo>();
 	private LocationClient mLocationClient;
+	private PoiSearch mPoiSearch;
+	private View restautrantPopView;
+	private TransitRouteOverlay transitOverlay;
+	private DrivingRouteOverlay driverOverlay;
+	private OnGetPoiSearchResultListener onGetPoiListener = new OnGetPoiSearchResultListener() {
+
+		@Override
+		public void onGetPoiResult(final PoiResult result) {
+
+			if (result == null
+					|| result.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
+				Toast.makeText(RoutelineActivity.this, "未找到结果",
+						Toast.LENGTH_LONG).show();
+				return;
+			}
+			if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+				mBaiduMap.clear();
+				OverlayManager m = new OverlayManager(mBaiduMap) {
+
+					@Override
+					public boolean onMarkerClick(Marker arg0) {
+
+						return false;
+					}
+
+					@Override
+					public List<OverlayOptions> getOverlayOptions() {
+						List<OverlayOptions> options = new ArrayList<OverlayOptions>();
+						for (int i = 0; i < result.getAllPoi().size(); i++) {
+							PoiInfo info = result.getAllPoi().get(i);
+							poiLLMap.put(info.location, info);
+							OverlayOptions option = new MarkerOptions()
+									.position(info.location).icon(bd);
+							options.add(option);
+						}
+						return options;
+					}
+				};
+				m.addToMap();
+				m.zoomToSpan();
+				mBaiduMap.setOnMarkerClickListener(new OnMarkerClickListener() {
+
+					@Override
+					public boolean onMarkerClick(Marker marker) {
+
+						final PoiInfo info = poiLLMap.get(marker.getPosition());
+						if (info != null) {
+							OnInfoWindowClickListener listener = null;
+							restautrantPopView = getLayoutInflater().inflate(
+									R.layout.activity_routeline_popview, null);
+							((TextView) restautrantPopView
+									.findViewById(R.id.popView_addressTxt))
+									.setText(info.address);
+							((TextView) restautrantPopView
+									.findViewById(R.id.popView_nameTxt))
+									.setText(info.name);
+							View busButton = restautrantPopView
+									.findViewById(R.id.bus_route);
+							View driveButton = restautrantPopView
+									.findViewById(R.id.drive_route);
+							busButton.setOnClickListener(new OnClickListener() {
+
+								@Override
+								public void onClick(View v) {
+									searchRoute(endLocation, ROUTE_BUS);
+									mBaiduMap.hideInfoWindow();
+								}
+							});
+							driveButton
+									.setOnClickListener(new OnClickListener() {
+
+										@Override
+										public void onClick(View v) {
+											searchRoute(endLocation,
+													ROUTE_DRIVE);
+											mBaiduMap.hideInfoWindow();
+										}
+									});
+							// listener = new OnInfoWindowClickListener() {
+							// public void onInfoWindowClick() {
+							//
+							// }
+							// };
+							endLocation = info.location;
+							InfoWindow mInfoWindow = new InfoWindow(
+									restautrantPopView, info.location, -47);
+							mBaiduMap.showInfoWindow(mInfoWindow);
+						}
+
+						return true;
+					}
+				});
+				return;
+			}
+
+		}
+
+		@Override
+		public void onGetPoiDetailResult(PoiDetailResult result) {
+
+		}
+	};
 	private BDLocationListener mLocationListener = new BDLocationListener() {
 		@Override
 		public void onReceiveLocation(BDLocation location) {
@@ -50,8 +179,7 @@ public class RoutelineActivity extends Activity implements
 			}
 			Log.v("LOC suc", "haveloc");
 			animateToLoc(location);
-			POISearch(location);
-			searchRoute(null);
+			searchPoi();
 			mLocationClient.stop();
 
 		}
@@ -80,19 +208,50 @@ public class RoutelineActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		SDKInitializer.initialize(getApplicationContext());
 		setContentView(R.layout.activity_routeline_layout);
+		bd = BitmapDescriptorFactory.fromResource(R.drawable.map_loc2);
 		findView();
 		initMap();
 		initLoc();
 		initPoiSearchSet();
 		initRoutPlanSet();
+		bindEvents();
+	}
+
+	private void bindEvents() {
+		mBaiduMap.setOnMapClickListener(new OnMapClickListener() {
+
+			@Override
+			public boolean onMapPoiClick(MapPoi arg0) {
+				return false;
+			}
+
+			@Override
+			public void onMapClick(LatLng ll) {
+				mBaiduMap.hideInfoWindow();
+			}
+		});
 	}
 
 	private void initPoiSearchSet() {
-		
+		mPoiSearch = PoiSearch.newInstance();
+		mPoiSearch.setOnGetPoiSearchResultListener(onGetPoiListener);
 	}
 
-	protected void POISearch(BDLocation location) {
-		
+	private void searchPoi() {
+		PoiBoundSearchOption boundSearchOption = new PoiBoundSearchOption();
+		LatLng southwest = new LatLng(mLocationData.latitude - 0.01,
+				mLocationData.longitude - 0.012);// 西南
+		LatLng northeast = new LatLng(mLocationData.latitude + 0.01,
+				mLocationData.longitude + 0.012);// 东北
+		LatLngBounds bounds = new LatLngBounds.Builder().include(southwest)
+				.include(northeast).build();// 得到一个地理范围对象
+		boundSearchOption.bound(bounds);// 设置poi检索范围
+		boundSearchOption.keyword("美食");// 检索关键字
+		mPoiSearch.searchInBound(boundSearchOption);// 发起poi范围检索请求
+		// boundSearchOption.pageNum(page);
+		// mPoiSearch.searchNearby(new PoiNearbySearchOption().location(
+		// new LatLng(mLocationData.latitude, mLocationData.longitude)).
+		// keyword("美食"));
 	}
 
 	private void initLoc() {
@@ -119,13 +278,17 @@ public class RoutelineActivity extends Activity implements
 			Log.d("LocSDK5", "locClient is null or not started");
 	}
 
-	public void searchRoute(View v) {
+	public void searchRoute(LatLng end, int routeType) {
 		PlanNode stNode = PlanNode.withLocation(startLocation);
-		PlanNode enNode = PlanNode.withCityNameAndPlaceName("武汉", "光谷广场");
-		 mSearch.transitSearch((new TransitRoutePlanOption())
-                 .from(stNode)
-                 .city("武汉")
-                 .to(enNode));
+		PlanNode enNode = PlanNode.withLocation(end);
+		if (routeType == ROUTE_BUS) {
+			mSearch.transitSearch((new TransitRoutePlanOption()).from(stNode)
+					.city("武汉").to(enNode));
+		} else if (routeType == ROUTE_DRIVE) {
+			mSearch.drivingSearch((new DrivingRoutePlanOption()).from(stNode)
+					.to(enNode));
+		}
+
 	}
 
 	private void initRoutPlanSet() {
@@ -157,6 +320,7 @@ public class RoutelineActivity extends Activity implements
 		}
 		super.onDestroy();
 		mapView.onDestroy();
+		bd.recycle();
 	}
 
 	@Override
@@ -169,39 +333,47 @@ public class RoutelineActivity extends Activity implements
 	@Override
 	public void onGetDrivingRouteResult(DrivingRouteResult result) {
 		if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
-            Toast.makeText(RoutelineActivity.this, "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
-        }
-        if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
-            //起终点或途经点地址有岐义，通过以下接口获取建议查询信息
-            //result.getSuggestAddrInfo()
-            return;
-        }
-        if (result.error == SearchResult.ERRORNO.NO_ERROR) {
-            DrivingRouteOverlay overlay = new MyDrivingRouteOverlay(mBaiduMap);
-            mBaiduMap.setOnMarkerClickListener(overlay);
-            overlay.setData(result.getRouteLines().get(0));
-            overlay.addToMap();
-            overlay.zoomToSpan();
-        }
+			Toast.makeText(RoutelineActivity.this, "抱歉，未找到结果",
+					Toast.LENGTH_SHORT).show();
+		}
+		if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+			// 起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+			// result.getSuggestAddrInfo()
+			return;
+		}
+		if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+			driverOverlay = new MyDrivingRouteOverlay(mBaiduMap);
+			mBaiduMap.setOnMarkerClickListener(driverOverlay);
+			driverOverlay.setData(result.getRouteLines().get(0));
+			if (transitOverlay != null) {
+				transitOverlay.removeFromMap();
+			}
+			driverOverlay.addToMap();
+			driverOverlay.zoomToSpan();
+		}
 	}
 
 	@Override
 	public void onGetTransitRouteResult(TransitRouteResult result) {
 		if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
-            Toast.makeText(RoutelineActivity.this, "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
-        }
-        if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
-            //起终点或途经点地址有岐义，通过以下接口获取建议查询信息
-            //result.getSuggestAddrInfo()
-            return;
-        }
-        if (result.error == SearchResult.ERRORNO.NO_ERROR) {
-            TransitRouteOverlay overlay = new MyTransitRouteOverlay(mBaiduMap);
-            mBaiduMap.setOnMarkerClickListener(overlay);
-            overlay.setData(result.getRouteLines().get(0));
-            overlay.addToMap();
-            overlay.zoomToSpan();
-        }
+			Toast.makeText(RoutelineActivity.this, "抱歉，未找到结果",
+					Toast.LENGTH_SHORT).show();
+		}
+		if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+			// 起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+			// result.getSuggestAddrInfo()
+			return;
+		}
+		if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+			transitOverlay = new MyTransitRouteOverlay(mBaiduMap);
+			mBaiduMap.setOnMarkerClickListener(transitOverlay);
+			transitOverlay.setData(result.getRouteLines().get(0));
+			if (driverOverlay != null) {
+				driverOverlay.removeFromMap();
+			}
+			transitOverlay.addToMap();
+			transitOverlay.zoomToSpan();
+		}
 	}
 
 	@Override
@@ -209,22 +381,23 @@ public class RoutelineActivity extends Activity implements
 		// TODO Auto-generated method stub
 
 	}
+
 	private class MyTransitRouteOverlay extends TransitRouteOverlay {
 
-        public MyTransitRouteOverlay(BaiduMap baiduMap) {
-            super(baiduMap);
-        }
+		public MyTransitRouteOverlay(BaiduMap baiduMap) {
+			super(baiduMap);
+		}
 
-        @Override
-        public BitmapDescriptor getStartMarker() {
-                return BitmapDescriptorFactory.fromResource(R.drawable.map_loc);
-        }
+		@Override
+		public BitmapDescriptor getStartMarker() {
+			return BitmapDescriptorFactory.fromResource(R.drawable.map_loc);
+		}
 
-        @Override
-        public BitmapDescriptor getTerminalMarker() {
-                return BitmapDescriptorFactory.fromResource(R.drawable.map_loc2);
-        }
-    }
+		@Override
+		public BitmapDescriptor getTerminalMarker() {
+			return BitmapDescriptorFactory.fromResource(R.drawable.map_loc2);
+		}
+	}
 
 	private class MyDrivingRouteOverlay extends DrivingRouteOverlay {
 
