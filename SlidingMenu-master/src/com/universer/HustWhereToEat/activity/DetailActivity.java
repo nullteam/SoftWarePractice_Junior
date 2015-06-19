@@ -1,5 +1,8 @@
 package com.universer.HustWhereToEat.activity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 import com.universer.HustWhereToEat.R;
 import com.universer.HustWhereToEat.listener.OperationListener;
 import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
+import com.universer.operation.OrderOperation;
 import com.universer.operation.UserOperation;
 
 public class DetailActivity extends Activity {
@@ -89,14 +93,21 @@ public class DetailActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				UserOperation userOper = new UserOperation();
-				userOper.addOrder(SharedPreferencesUtil.getCurrentUserStringShare(DetailActivity.this,"userName",""),
+				OrderOperation orderOper = new OrderOperation();
+				orderOper.addOrder(SharedPreferencesUtil.getCurrentUserStringShare(DetailActivity.this,"userName",""),
 						restaurantId,Integer.toString(num), 
 						restaurantName, restaurantAddress, restaurantPhone, new OperationListener<String>(){
 
 							@Override
 							public void onSuccess() {
-								Toast.makeText(DetailActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
+//								Toast.makeText(DetailActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
+								Intent intent = new Intent(DetailActivity.this,OrderDetailActivity.class);
+								intent.putExtra("restaurantName", restaurantName);
+								intent.putExtra("restaurantAddress", restaurantAddress);
+								intent.putExtra("restaurantPhone", restaurantPhone);
+								intent.putExtra("num", num);
+								intent.putExtra("time", new SimpleDateFormat("HH:mm:ss").format(new Date()).toString());
+								startActivity(intent);
 								super.onSuccess();
 							}
 
@@ -128,7 +139,6 @@ public class DetailActivity extends Activity {
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 	}
 }

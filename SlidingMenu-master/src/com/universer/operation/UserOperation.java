@@ -93,39 +93,4 @@ public class UserOperation {
 		});
 
 	}
-	
-	public void addOrder(String userID, String restaurantId,
-			String orderNum,String restaurantName,String restaurantAddress,
-			String restaurantPhone,final OperationListener<String> listener) {
-		String url = "/processOrder";
-		HWAsyncHttpClient client = new HWAsyncHttpClient();
-		RequestParams params = new RequestParams();
-		params.put("code","1");
-		params.put("userID",userID);
-		params.put("restaurantId",restaurantId);
-		params.put("orderNum",orderNum);
-		params.put("restaurantName",restaurantName);
-		params.put("restaurantAddress",restaurantAddress);
-		params.put("restaurantPhone",restaurantPhone);
-		client.post(null, url, params, new HWResponseHandler() {
-			public void onSuccess(JSONObject jo) {
-				String result;
-				try {
-					result = jo.getString("result");
-					if(result.equals("1")){
-						listener.onSuccess();
-					}else{
-						listener.onFailure();
-					}
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			};
-			
-			@Override
-			public void onFailure() {
-				super.onFailure();
-			}
-		});
-	}
 }

@@ -42,18 +42,13 @@ import com.universer.HustWhereToEat.adapter.ScrollingTabsAdapter;
 import com.universer.HustWhereToEat.view.ScrollableTabView;
 
 public class AllFragment extends Fragment implements
-		OnRefreshListener<ListView>, ViewPager.OnPageChangeListener {
+		OnRefreshListener<ListView>{
 	private static final String TAG = "NewsFragment";
 
 	private View showLeft;
-//	private View showRight;
 	private TextView mTopTitleView;
 	private ImageView mTopBackView;
-	private MyAdapter mAdapter;
-	private ViewPager mPager;
-	private ArrayList<Fragment> pagerItemList = null;
 
-	private ListViewPagerAdapter listViewPagerAdapter;
 	private Activity mActivity;
 	private ScrollableTabView mScrollableTabView;
 	private ScrollingTabsAdapter mScrollingTabsAdapter;
@@ -82,36 +77,9 @@ public class AllFragment extends Fragment implements
 		View mView = inflater.inflate(R.layout.view_pager, null);
 
 		showLeft = (View) mView.findViewById(R.id.head_layout_showLeft);
-//		showRight = (View) mView.findViewById(R.id.head_layout_showRight);
-
 		mTopTitleView = (TextView) showLeft.findViewById(R.id.head_layout_text);
 		mTopTitleView.setText(getString(R.string.tab_all));
 		mTopBackView = (ImageView) showLeft.findViewById(R.id.head_layout_back);
-		// mTopBackView.setBackgroundResource(R.drawable.biz_news_main_back_normal);
-
-		mPager = (ViewPager) mView.findViewById(R.id.vp_list);
-
-		listViewPagerAdapter = new ListViewPagerAdapter(this,getActivity());
-		mPager.setAdapter(listViewPagerAdapter);
-
-		pagerItemList = new ArrayList<Fragment>();
-		pagerItemList.add(new Fragment());
-		pagerItemList.add(new Fragment());
-		pagerItemList.add(new Fragment());
-		// pagerItemList.add(new Fragment());
-		// pagerItemList.add(new Fragment());
-		// pagerItemList.add(new Fragment());
-		// pagerItemList.add(new Fragment());
-
-		// PageFragment1 page1 = new PageFragment1();
-		// PageFragment2 page2 = new PageFragment2();
-		// pagerItemList.add(page1);
-		// pagerItemList.add(page2);
-		// mAdapter = new MyAdapter(getFragmentManager());
-		// mPager.setAdapter(mAdapter);
-
-		mPager.setOnPageChangeListener(this);
-		initScrollableTabs(mView, mPager);
 		return mView;
 	}
 
@@ -121,10 +89,6 @@ public class AllFragment extends Fragment implements
 		mScrollingTabsAdapter = new ScrollingTabsAdapter(mActivity);
 		mScrollableTabView.setAdapter(mScrollingTabsAdapter);
 		mScrollableTabView.setViewPage(mViewPager);
-	}
-
-	public ViewPager getViewPage() {
-		return mPager;
 	}
 
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -146,60 +110,6 @@ public class AllFragment extends Fragment implements
 //				((SlidingActivity) getActivity()).showRight();
 //			}
 //		});
-	}
-
-	public boolean isFirst() {
-		Log.e(TAG, "isFirst: " + mPager.getCurrentItem() + ", pagerItemList "
-				+ pagerItemList.size());
-		if (mPager.getCurrentItem() == 0)
-			return true;
-		else
-			return false;
-	}
-
-	public boolean isEnd() {
-		Log.e(TAG, "isEnd: " + mPager.getCurrentItem() + ", pagerItemList "
-				+ pagerItemList.size());
-		if (mPager.getCurrentItem() == pagerItemList.size() - 1)
-			return true;
-		else
-			return false;
-	}
-
-	public class MyAdapter extends FragmentPagerAdapter {
-		public MyAdapter(FragmentManager fm) {
-			super(fm);
-		}
-
-		@Override
-		public int getCount() {
-			return pagerItemList.size();
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-
-			Fragment fragment = null;
-			if (position < pagerItemList.size())
-				fragment = pagerItemList.get(position);
-			else
-				fragment = pagerItemList.get(0);
-
-			return fragment;
-
-		}
-	}
-
-	private MyPageChangeListener myPageChangeListener;
-
-	public void setMyPageChangeListener(MyPageChangeListener l) {
-
-		myPageChangeListener = l;
-
-	}
-
-	public interface MyPageChangeListener {
-		public void onPageSelected(int position);
 	}
 
 	@Override
@@ -233,33 +143,9 @@ public class AllFragment extends Fragment implements
 	}
 
 	@Override
-	public void onPageScrollStateChanged(int position) {
-
-	}
-
-	@Override
-	public void onPageScrolled(int position, float arg1, int arg2) {
-
-	}
-
-	@Override
-	public void onPageSelected(int position) {
-		if (myPageChangeListener != null) {
-			myPageChangeListener.onPageSelected(position);
-		}
-		if (mScrollableTabView != null) {
-			mScrollableTabView.selectTab(position);
-		}
-
-	}
-
-	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
 		Log.e(TAG, "onDestroyView");
-		listViewPagerAdapter = null;
-		pagerItemList.clear();
-		pagerItemList = null;
 		mScrollableTabView = null;
 		mScrollingTabsAdapter = null;
 		mActivity = null;
