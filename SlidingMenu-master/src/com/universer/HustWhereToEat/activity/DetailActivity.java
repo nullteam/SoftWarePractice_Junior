@@ -10,8 +10,12 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.universer.HustWhereToEat.R;
+import com.universer.HustWhereToEat.listener.OperationListener;
+import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
+import com.universer.operation.UserOperation;
 
 public class DetailActivity extends Activity {
 	private Button orderBtn;
@@ -27,6 +31,10 @@ public class DetailActivity extends Activity {
 //	List<String> comments;
 	private ListAdapter mListAdapter;
 	private int num = 0;
+	String restaurantName = null;
+	String restaurantAddress = null;
+	String restaurantId = null;
+	String restaurantPhone = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +51,17 @@ public class DetailActivity extends Activity {
 
 	private void initView() {
 
-		String name = mIntent.getStringExtra("NAME");
+		restaurantName = mIntent.getStringExtra("NAME");
 //		String url = mIntent.getStringExtra("IMAGE");
-		String address = mIntent.getStringExtra("ADDRESS");
-		String restaurantID = mIntent.getStringExtra("UID");
-		final String phone = mIntent.getStringExtra("PHONE");
+		restaurantAddress = mIntent.getStringExtra("ADDRESS");
+		restaurantId = mIntent.getStringExtra("UID");
+		restaurantPhone = mIntent.getStringExtra("PHONE");
 //		comments = mIntent.getStringArrayListExtra("COMMENT");
 //		Log.v("URL", url);
 //		restautantImg.setImageResource(Integer.parseInt(url));
-		addressTxt.setText(address);
-		phoneTxt.setText(phone);
-		nameTxt.setText(name);
+		addressTxt.setText(restaurantAddress);
+		phoneTxt.setText(restaurantPhone);
+		nameTxt.setText(restaurantName);
 	}
 	
 	private void bindEvents() {
@@ -81,7 +89,24 @@ public class DetailActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				
+				UserOperation userOper = new UserOperation();
+				userOper.addOrder(SharedPreferencesUtil.getCurrentUserStringShare(DetailActivity.this,"userName",""),
+						restaurantId,Integer.toString(num), 
+						restaurantName, restaurantAddress, restaurantPhone, new OperationListener<String>(){
+
+							@Override
+							public void onSuccess() {
+								Toast.makeText(DetailActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
+								super.onSuccess();
+							}
+
+							@Override
+							public void onFailure() {
+								Toast.makeText(DetailActivity.this,"提交失败",Toast.LENGTH_SHORT).show();
+								super.onFailure();
+							}
+					
+				});
 //				Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"
 //						+ phone));
 //				DetailActivity.this.startActivity(intent);
