@@ -342,9 +342,13 @@ public class RoutelineActivity extends Activity implements
 			return;
 		}
 		if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+			if(driverOverlay!=null) {
+				driverOverlay.removeFromMap();
+			}
 			driverOverlay = new MyDrivingRouteOverlay(mBaiduMap);
 			mBaiduMap.setOnMarkerClickListener(driverOverlay);
 			driverOverlay.setData(result.getRouteLines().get(0));
+			
 			if (transitOverlay != null) {
 				transitOverlay.removeFromMap();
 			}
@@ -365,6 +369,9 @@ public class RoutelineActivity extends Activity implements
 			return;
 		}
 		if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+			if(transitOverlay!=null) {
+				transitOverlay.removeFromMap();
+			}
 			transitOverlay = new MyTransitRouteOverlay(mBaiduMap);
 			mBaiduMap.setOnMarkerClickListener(transitOverlay);
 			transitOverlay.setData(result.getRouteLines().get(0));

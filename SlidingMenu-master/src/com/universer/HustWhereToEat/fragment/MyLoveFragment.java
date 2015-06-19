@@ -92,29 +92,29 @@ public class MyLoveFragment extends BaseFragment {
 		comments.add("好评");
 		comments.add("好评");
 		comments.add("好评");
-		{
-			res = new Restaurant("鸭血粉丝", R.drawable.restaurant_yaxuefensi + "",
-					Restaurant.SMALL, "华中科技大学南三门", "13098840196", comments);
-			restaurantList.add(res);
-			res = new Restaurant("简朴田园寨(光谷航母店) ",
-					R.drawable.restaurant_tianyuan + "", Restaurant.BIG,
-					"华中科技大学南大门", "13098840196", comments);
-			restaurantList.add(res);
-			res = new Restaurant("氧气层", R.drawable.restaurant_o2 + "",
-					Restaurant.BIG, "华中科技大学西园食堂附近", "13098840196", comments);
-			restaurantList.add(res);
-			res = new Restaurant("鸡蛋灌饼", R.drawable.restaurant_jidanguanbing
-					+ "", Restaurant.SMALL, "华中科技大学南大门附近", "13098840196",
-					comments);
-			restaurantList.add(res);
-			res = new Restaurant("蔡林记", R.drawable.restaurant_cailinji + "",
-					Restaurant.SMALL, "光谷步行街对面", "13098840196", comments);
-			restaurantList.add(res);
-			res = new Restaurant("凯威啤酒屋", R.drawable.restaurant_kaiweipijiuwu
-					+ "", Restaurant.BIG, "光谷大洋百货4楼", "13098840196", comments);
-			restaurantList.add(res);
-
-		}
+//		{
+//			res = new Restaurant("鸭血粉丝", R.drawable.restaurant_yaxuefensi + "",
+//					Restaurant.SMALL, "华中科技大学南三门", "13098840196", comments);
+//			restaurantList.add(res);
+//			res = new Restaurant("简朴田园寨(光谷航母店) ",
+//					R.drawable.restaurant_tianyuan + "", Restaurant.BIG,
+//					"华中科技大学南大门", "13098840196", comments);
+//			restaurantList.add(res);
+//			res = new Restaurant("氧气层", R.drawable.restaurant_o2 + "",
+//					Restaurant.BIG, "华中科技大学西园食堂附近", "13098840196", comments);
+//			restaurantList.add(res);
+//			res = new Restaurant("鸡蛋灌饼", R.drawable.restaurant_jidanguanbing
+//					+ "", Restaurant.SMALL, "华中科技大学南大门附近", "13098840196",
+//					comments);
+//			restaurantList.add(res);
+//			res = new Restaurant("蔡林记", R.drawable.restaurant_cailinji + "",
+//					Restaurant.SMALL, "光谷步行街对面", "13098840196", comments);
+//			restaurantList.add(res);
+//			res = new Restaurant("凯威啤酒屋", R.drawable.restaurant_kaiweipijiuwu
+//					+ "", Restaurant.BIG, "光谷大洋百货4楼", "13098840196", comments);
+//			restaurantList.add(res);
+//
+//		}
 	}
 
 	public void onActivityCreated(Bundle savedInstanceState) {

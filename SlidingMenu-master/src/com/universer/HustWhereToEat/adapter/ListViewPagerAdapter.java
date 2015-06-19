@@ -48,43 +48,43 @@ public class ListViewPagerAdapter extends PagerAdapter {
 		comments.add("好评");
 		comments.add("好评");
 		Restaurant res;
-		{
-			res = new Restaurant("麦芽芗", R.drawable.restaurant_laosichuan + "",
-					Restaurant.SMALL, "华科生活门", "13098840196", comments);
-			restaurantList.add(res);
-			res = new Restaurant("西苑咖啡", R.drawable.restaurant_coffee + "",
-					Restaurant.BIG, "华中科技大学西十一舍附近", "13098840196", comments);
-			restaurantList.add(res);
-			res = new Restaurant("鸭血粉丝", R.drawable.restaurant_yaxuefensi + "",
-					Restaurant.SMALL, "华中科技大学南三门", "13098840196", comments);
-			restaurantList.add(res);
-			res = new Restaurant("简朴田园寨(光谷航母店) ",
-					R.drawable.restaurant_tianyuan + "", Restaurant.BIG,
-					"华中科技大学南大门", "13098840196", comments);
-			restaurantList.add(res);
-			res = new Restaurant("氧气层", R.drawable.restaurant_o2 + "",
-					Restaurant.BIG, "华中科技大学西园食堂附近", "13098840196", comments);
-			restaurantList.add(res);
-			res = new Restaurant("好运来新川菜", R.drawable.restaurant_xinchuancai
-					+ "", Restaurant.BIG, "华中科技大学西光谷体育馆对面", "13098840196",
-					comments);
-			restaurantList.add(res);
-			res = new Restaurant("鸡蛋灌饼", R.drawable.restaurant_jidanguanbing
-					+ "", Restaurant.SMALL, "华中科技大学南大门附近", "13098840196",
-					comments);
-			restaurantList.add(res);
-			res = new Restaurant("蔡林记", R.drawable.restaurant_cailinji + "",
-					Restaurant.SMALL, "光谷步行街对面", "13098840196", comments);
-			restaurantList.add(res);
-			res = new Restaurant("海底捞", R.drawable.restaurant_haidilao + "",
-					Restaurant.SMALL, "珞喻路618号（烽火科技对面）", "13098840196",
-					comments);
-			restaurantList.add(res);
-			res = new Restaurant("凯威啤酒屋", R.drawable.restaurant_kaiweipijiuwu
-					+ "", Restaurant.BIG, "光谷大洋百货4楼", "13098840196", comments);
-			restaurantList.add(res);
-
-		}
+//		{
+//			res = new Restaurant("麦芽芗", R.drawable.restaurant_laosichuan + "",
+//					Restaurant.SMALL, "华科生活门", "13098840196", comments);
+//			restaurantList.add(res);
+//			res = new Restaurant("西苑咖啡", R.drawable.restaurant_coffee + "",
+//					Restaurant.BIG, "华中科技大学西十一舍附近", "13098840196", comments);
+//			restaurantList.add(res);
+//			res = new Restaurant("鸭血粉丝", R.drawable.restaurant_yaxuefensi + "",
+//					Restaurant.SMALL, "华中科技大学南三门", "13098840196", comments);
+//			restaurantList.add(res);
+//			res = new Restaurant("简朴田园寨(光谷航母店) ",
+//					R.drawable.restaurant_tianyuan + "", Restaurant.BIG,
+//					"华中科技大学南大门", "13098840196", comments);
+//			restaurantList.add(res);
+//			res = new Restaurant("氧气层", R.drawable.restaurant_o2 + "",
+//					Restaurant.BIG, "华中科技大学西园食堂附近", "13098840196", comments);
+//			restaurantList.add(res);
+//			res = new Restaurant("好运来新川菜", R.drawable.restaurant_xinchuancai
+//					+ "", Restaurant.BIG, "华中科技大学西光谷体育馆对面", "13098840196",
+//					comments);
+//			restaurantList.add(res);
+//			res = new Restaurant("鸡蛋灌饼", R.drawable.restaurant_jidanguanbing
+//					+ "", Restaurant.SMALL, "华中科技大学南大门附近", "13098840196",
+//					comments);
+//			restaurantList.add(res);
+//			res = new Restaurant("蔡林记", R.drawable.restaurant_cailinji + "",
+//					Restaurant.SMALL, "光谷步行街对面", "13098840196", comments);
+//			restaurantList.add(res);
+//			res = new Restaurant("海底捞", R.drawable.restaurant_haidilao + "",
+//					Restaurant.SMALL, "珞喻路618号（烽火科技对面）", "13098840196",
+//					comments);
+//			restaurantList.add(res);
+//			res = new Restaurant("凯威啤酒屋", R.drawable.restaurant_kaiweipijiuwu
+//					+ "", Restaurant.BIG, "光谷大洋百货4楼", "13098840196", comments);
+//			restaurantList.add(res);
+//
+//		}
 	}
 
 	@Override
@@ -120,9 +120,9 @@ public class ListViewPagerAdapter extends PagerAdapter {
 			Iterator<Restaurant> resIt = restaurantList.iterator();
 			while (resIt.hasNext()) {
 				Restaurant bigRes = resIt.next();
-				if (bigRes.getType() == Restaurant.BIG) {
-					bigResList.add(bigRes);
-				}
+//				if (bigRes.getType() == Restaurant.BIG) {
+//					bigResList.add(bigRes);
+//				}
 			}
 			RestaurantListAdapter bigAdapter = new RestaurantListAdapter(
 					mContext, bigResList);
@@ -147,9 +147,9 @@ public class ListViewPagerAdapter extends PagerAdapter {
 			Iterator<Restaurant> resIt = restaurantList.iterator();
 			while (resIt.hasNext()) {
 				Restaurant smallRes = resIt.next();
-				if (smallRes.getType() == Restaurant.SMALL) {
-					smallResList.add(smallRes);
-				}
+//				if (smallRes.getType() == Restaurant.SMALL) {
+//					smallResList.add(smallRes);
+//				}
 			}
 			RestaurantListAdapter bigAdapter = new RestaurantListAdapter(
 					mContext, smallResList);

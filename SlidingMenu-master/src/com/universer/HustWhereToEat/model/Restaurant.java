@@ -8,9 +8,6 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "restaurant")
 public class Restaurant extends BaseDaoEnabled<Restaurant, String> {
-
-	public static int BIG = 0;
-	public static int SMALL = 1;
 	@DatabaseField(generatedId = false)
 	private String id;
 	@DatabaseField
@@ -18,39 +15,42 @@ public class Restaurant extends BaseDaoEnabled<Restaurant, String> {
 	@DatabaseField
 	private String imageUrl;
 	@DatabaseField
-	private int type;
-	@DatabaseField
 	private String address;
 	@DatabaseField
 	private String phone;
-	//comment去掉
+	// comment去掉
 	@DatabaseField
 	private String comment;
 	@DatabaseField
-	private int latitude;
-	@DatabaseField
-	private int longtitude;
+	private boolean isLike;
 	private List<String> commentList;// 应该是个List集合 这里先不做这个处理
-//	private GeoPoint point;
-//
-//	public GeoPoint getPoint() {
-//		return point;
-//	}
-//
-//	public void setPoint(int latitude,int longtitude) {
-//		this.point = new GeoPoint(latitude, longtitude);
-//	}
 
-	public Restaurant(String name, String imageUrl, int type, String address,
-			String phone, List<String> commentList) {
+	public Restaurant(String id, String name, String imageUrl, String address,
+			String phone, boolean isLike, List<String> commentList) {
 		super();
-
+		this.id = id;
 		this.name = name;
 		this.imageUrl = imageUrl;
-		this.type = type;
 		this.address = address;
 		this.phone = phone;
+		this.isLike = isLike;
 		this.setCommentList(commentList);
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public boolean isLike() {
+		return isLike;
+	}
+
+	public void setLike(boolean isLike) {
+		this.isLike = isLike;
 	}
 
 	public String getName() {
@@ -67,14 +67,6 @@ public class Restaurant extends BaseDaoEnabled<Restaurant, String> {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
-	}
-
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
 	}
 
 	public String getAddress() {
@@ -109,8 +101,8 @@ public class Restaurant extends BaseDaoEnabled<Restaurant, String> {
 		this.comment = comment;
 	}
 
-//	public void setPoint(GeoPoint geoPoint) {
-//		this.point = geoPoint;
-//	}
+	// public void setPoint(GeoPoint geoPoint) {
+	// this.point = geoPoint;
+	// }
 
 }

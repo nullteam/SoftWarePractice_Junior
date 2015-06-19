@@ -219,8 +219,7 @@ public class SurroundActivity extends Activity implements
 		    } 
 		    else {
 		        //检索成功
-		    	Toast.makeText(SurroundActivity.this, result.getDetailUrl() + "www"+result.getType(),
-						Toast.LENGTH_LONG).show();
+		    	Log.v("detail_url", result.getDetailUrl());
 		    }
 		
 	}
