@@ -18,13 +18,29 @@ import com.universer.HustWhereToEat.listener.OperationListener;
 import com.universer.HustWhereToEat.model.Restaurant;
 
 public class RestaurantOperation {
+	
 	public void getMyLove(String userId,
 			final OperationListener<Restaurant> listener) {
 		String url = "/processFavorite";
 		RequestParams params = new RequestParams();
 		params.put("userId", userId);
 		params.put("code", "4");
+		List<Restaurant> restaurants = null;
 		HWAsyncHttpClient client = new HWAsyncHttpClient();
+		try {
+			HWDataBaseHelper helper = HWDatabaseHelperManager
+					.getInstance().getHelper();
+			Dao<Restaurant, String> resDao = helper
+					.getDao(Restaurant.class);
+			
+			restaurants = resDao.queryForEq("isLike", true);
+			if(restaurants!=null&&!restaurants.isEmpty()) {
+				listener.onSuccess(restaurants);
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		client.post(null, url, params, new HWResponseHandler() {
 
 			@Override
