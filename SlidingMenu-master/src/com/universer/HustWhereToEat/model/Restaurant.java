@@ -25,6 +25,9 @@ public class Restaurant extends BaseDaoEnabled<Restaurant, String> {
 	private boolean isLike;
 	private List<String> commentList;// 应该是个List集合 这里先不做这个处理
 
+	public Restaurant() {
+		
+	}
 	public Restaurant(String id, String name, String imageUrl, String address,
 			String phone, boolean isLike, List<String> commentList) {
 		super();

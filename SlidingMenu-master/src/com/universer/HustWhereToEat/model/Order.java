@@ -4,7 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.misc.BaseDaoEnabled;
 
 public class Order extends BaseDaoEnabled<Order, String> {
-	@DatabaseField(generatedId = true)
+	@DatabaseField(generatedId = false)
 	private String orderId;
 	@DatabaseField
 	private String userId;
@@ -21,6 +21,9 @@ public class Order extends BaseDaoEnabled<Order, String> {
 	@DatabaseField
 	private String orderTime;
 	
+	public Order() {
+		
+	}
 	public Order(String orderId, String userId, String restaurantId,
 			String orderNum, String restaurantName, String restaurantAddress,
 			String restaurantPhone, String orderTime) {
