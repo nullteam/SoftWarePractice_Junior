@@ -57,7 +57,7 @@ public class LoginActivity extends Activity {
 	private void autoLogin() {
 		SharedPreferences curreentAccountsPrefs = SharedPreferencesUtil.
 									setSettingSharedPreferences(getApplicationContext());
-		factorOneStr = curreentAccountsPrefs.getString("account","");
+		factorOneStr = curreentAccountsPrefs.getString("userName","");
 		factorTwoStr = curreentAccountsPrefs.getString("password","");
 		if(!factorOneStr.isEmpty() && factorTwoStr.isEmpty()){
 			requestLogin();

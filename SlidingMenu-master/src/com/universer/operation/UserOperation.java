@@ -32,10 +32,12 @@ public class UserOperation {
 						SharedPreferences accountsPrefs = SharedPreferencesUtil.
 								setUserSharedPreference(context, name);
 						Editor editor=accountsPrefs.edit();
+						editor.putString("userName",name);
 						editor.putString("password", password);
 						editor.commit();
 						accountsPrefs = SharedPreferencesUtil.setUserSharedPreference(context, name);
 						editor=accountsPrefs.edit();
+						editor.putString("userName", name);
 						editor.putString("password", password);
 						editor.commit();
 					} else {
@@ -72,10 +74,12 @@ public class UserOperation {
 								setUserSharedPreference(context, name);
 						
 						Editor editor=accountsPrefs.edit();
+						editor.putString("userName", name);
 						editor.putString("password", password);
 						editor.commit();
 						accountsPrefs = SharedPreferencesUtil.setUserSharedPreference(context, name);
 						editor=accountsPrefs.edit();
+						editor.putString("userName", name);
 						editor.putString("password", password);
 						editor.commit();
 					} else {
