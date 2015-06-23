@@ -69,7 +69,6 @@ import com.universer.HustWhereToEat.R;
 import com.universer.HustWhereToEat.activity.DetailActivity;
 import com.universer.HustWhereToEat.activity.SlidingActivity;
 import com.universer.HustWhereToEat.activity.SurroundActivity;
-import com.universer.HustWhereToEat.adapter.ListViewPagerAdapter;
 import com.universer.HustWhereToEat.adapter.RestaurantListAdapter;
 import com.universer.HustWhereToEat.adapter.ScrollingTabsAdapter;
 import com.universer.HustWhereToEat.model.Restaurant;
