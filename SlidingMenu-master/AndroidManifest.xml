@@ -68,7 +68,7 @@
         android:theme="@android:style/Theme.NoTitleBar" >
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="2yEzSULUyevqo4nCvyRFY5Hd" />
+            android:value="fywGF23ogqlXo4Ta2k4tyIGb" />
 
         <activity android:name=".activity.LoginActivity" >
             <intent-filter>

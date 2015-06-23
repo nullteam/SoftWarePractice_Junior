@@ -41,6 +41,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
+import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatusUpdate;
@@ -111,12 +112,12 @@ public class AllFragment extends Fragment implements
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		SDKInitializer.initialize(mActivity.getApplicationContext());
 		View mView = inflater.inflate(R.layout.resturants_layout, null);
-
 		findView(mView);
 		iniView();
 		initLoc();
-		
+		Log.e("start", "start");
 		return mView;
 	}
 	
@@ -131,6 +132,7 @@ public class AllFragment extends Fragment implements
 		mTopTitleView.setText(getString(R.string.tab_all));
 		resAdapter = new RestaurantListAdapter(mActivity, restaurants);
 		resListView.setAdapter(resAdapter);
+		resListView.setOnRefreshListener(this);
 	}
 
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -192,7 +194,7 @@ public class AllFragment extends Fragment implements
 		super.onDestroyView();
 		Log.e(TAG, "onDestroyView");
 		mActivity = null;
-		mPoiSearch.destroy();
+//		mPoiSearch.destroy();
 	}
 	
 	private BDLocationListener mLocationListener = new BDLocationListener() {
@@ -261,7 +263,7 @@ public class AllFragment extends Fragment implements
 			for (int i = 0; i < result.getAllPoi().size(); i++) {
 				PoiInfo info = result.getAllPoi().get(i);
 				mPoiSearch.searchPoiDetail((new PoiDetailSearchOption()).poiUid(info.uid));
-				restaurants.add(new Restaurant(info.uid,info.name, "", info.address, info.phoneNum, false,null));
+				restaurants.add(new Restaurant(info.uid,info.name, " ", info.address, info.phoneNum, false,null));
 			}
 			
 			resAdapter.notifyDataSetChanged();

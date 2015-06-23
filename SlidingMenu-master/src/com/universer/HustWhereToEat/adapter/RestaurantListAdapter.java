@@ -67,8 +67,9 @@ public class RestaurantListAdapter extends BaseAdapter {
 			// Uri imageUri =
 			// Uri.parse(restaurantList.get(position).getImageUrl());
 			// childHolder.restaurantImg.setImageURI(imageUri);
-			childHolder.restaurantImg.setImageResource(Integer
-					.parseInt(restaurantList.get(position).getImageUrl()));
+			
+//			childHolder.restaurantImg.setImageResource(Integer
+//					.parseInt(restaurantList.get(position).getImageUrl()));
 		} else {
 //			childHolder.restaurantImg.setImageResource(null);
 		}
