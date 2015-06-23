@@ -16,6 +16,7 @@
 package com.universer.HustWhereToEat.fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -35,6 +36,7 @@ import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.universer.HustWhereToEat.R;
 import com.universer.HustWhereToEat.activity.SlidingActivity;
 import com.universer.HustWhereToEat.adapter.ListViewPagerAdapter;
@@ -48,10 +50,9 @@ public class AllFragment extends Fragment implements
 	private View showLeft;
 	private TextView mTopTitleView;
 	private ImageView mTopBackView;
+	private PullToRefreshListView resListView;
 
 	private Activity mActivity;
-	private ScrollableTabView mScrollableTabView;
-	private ScrollingTabsAdapter mScrollingTabsAdapter;
 
 	public AllFragment() {
 	}
@@ -76,19 +77,14 @@ public class AllFragment extends Fragment implements
 			Bundle savedInstanceState) {
 		View mView = inflater.inflate(R.layout.view_pager, null);
 
-		showLeft = (View) mView.findViewById(R.id.head_layout_showLeft);
-		mTopTitleView = (TextView) showLeft.findViewById(R.id.head_layout_text);
 		mTopTitleView.setText(getString(R.string.tab_all));
-		mTopBackView = (ImageView) showLeft.findViewById(R.id.head_layout_back);
 		return mView;
 	}
-
-	private void initScrollableTabs(View view, ViewPager mViewPager) {
-		mScrollableTabView = (ScrollableTabView) view
-				.findViewById(R.id.scrollabletabview);
-		mScrollingTabsAdapter = new ScrollingTabsAdapter(mActivity);
-		mScrollableTabView.setAdapter(mScrollingTabsAdapter);
-		mScrollableTabView.setViewPage(mViewPager);
+	
+	private void findView(View view) {
+		showLeft = (View) view.findViewById(R.id.head_layout_showLeft);
+		mTopTitleView = (TextView) showLeft.findViewById(R.id.head_layout_text);
+		mTopBackView = (ImageView) showLeft.findViewById(R.id.head_layout_back);
 	}
 
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -146,8 +142,6 @@ public class AllFragment extends Fragment implements
 	public void onDestroyView() {
 		super.onDestroyView();
 		Log.e(TAG, "onDestroyView");
-		mScrollableTabView = null;
-		mScrollingTabsAdapter = null;
 		mActivity = null;
 	}
 

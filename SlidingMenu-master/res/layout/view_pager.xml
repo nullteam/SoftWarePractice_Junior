@@ -5,17 +5,14 @@
     android:background="#fff" >
 
     <include android:id="@+id/head_layout" layout="@layout/head_layout"/>
-  <com.universer.HustWhereToEat.view.ScrollableTabView 
-       android:id="@+id/scrollabletabview"
-        android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-     android:layout_below="@+id/head_layout"
-    />
-     <android.support.v4.view.ViewPager
-        android:id="@+id/vp_list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" 
-        android:layout_below="@+id/scrollabletabview"
-        />
+    <com.handmark.pulltorefresh.library.PullToRefreshListView xmlns:android="http://schemas.android.com/apk/res/android"
+	    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+	    android:id="@+id/res_listview"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:background="@drawable/listview_bg"
+	    android:layout_below="@+id/head_layout"
+	    android:cacheColorHint="#00000000"
+	    ptr:ptrHeaderBackground="@android:color/darker_gray" />
 
 </RelativeLayout>
