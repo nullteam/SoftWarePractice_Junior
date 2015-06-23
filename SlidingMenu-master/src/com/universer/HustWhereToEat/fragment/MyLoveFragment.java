@@ -19,7 +19,10 @@ import com.universer.HustWhereToEat.R;
 import com.universer.HustWhereToEat.activity.DetailActivity;
 import com.universer.HustWhereToEat.activity.SlidingActivity;
 import com.universer.HustWhereToEat.adapter.RestaurantListAdapter;
+import com.universer.HustWhereToEat.listener.OperationListener;
 import com.universer.HustWhereToEat.model.Restaurant;
+import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
+import com.universer.operation.RestaurantOperation;
 
 public class MyLoveFragment extends BaseFragment {
 
@@ -28,6 +31,7 @@ public class MyLoveFragment extends BaseFragment {
 	private ImageView mTopBackView;
 	// private View showRight;
 	private ListView mListView;
+	private RestaurantListAdapter mAdapter;
 	private List<Restaurant> restaurantList = new ArrayList<Restaurant>();
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,7 +41,7 @@ public class MyLoveFragment extends BaseFragment {
 		initData();
 		findView(view);
 		initView();
-
+		initData();
 		// 原本应采用数据库的访问方式 暂时只是以样本的形式展现
 		// mTopBackView.setBackgroundResource(R.drawable.biz_local_news_main_back_normal);
 		return view;
@@ -45,8 +49,8 @@ public class MyLoveFragment extends BaseFragment {
 
 	private void initView() {
 		mTopTitleView.setText(getString(R.string.tab_mylove));
-		mListView.setAdapter(new RestaurantListAdapter(getActivity(),
-				restaurantList));
+		mAdapter = new RestaurantListAdapter(getActivity(), restaurantList);
+		mListView.setAdapter(mAdapter);
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -84,37 +88,26 @@ public class MyLoveFragment extends BaseFragment {
 	}
 
 	private void initData() {
-		Restaurant res;
-		List<String> comments = new ArrayList<String>();
-		comments.add("好评");
-		comments.add("好评");
-		comments.add("好评");
-		comments.add("好评");
-		comments.add("好评");
-		comments.add("好评");
-//		{
-//			res = new Restaurant("鸭血粉丝", R.drawable.restaurant_yaxuefensi + "",
-//					Restaurant.SMALL, "华中科技大学南三门", "13098840196", comments);
-//			restaurantList.add(res);
-//			res = new Restaurant("简朴田园寨(光谷航母店) ",
-//					R.drawable.restaurant_tianyuan + "", Restaurant.BIG,
-//					"华中科技大学南大门", "13098840196", comments);
-//			restaurantList.add(res);
-//			res = new Restaurant("氧气层", R.drawable.restaurant_o2 + "",
-//					Restaurant.BIG, "华中科技大学西园食堂附近", "13098840196", comments);
-//			restaurantList.add(res);
-//			res = new Restaurant("鸡蛋灌饼", R.drawable.restaurant_jidanguanbing
-//					+ "", Restaurant.SMALL, "华中科技大学南大门附近", "13098840196",
-//					comments);
-//			restaurantList.add(res);
-//			res = new Restaurant("蔡林记", R.drawable.restaurant_cailinji + "",
-//					Restaurant.SMALL, "光谷步行街对面", "13098840196", comments);
-//			restaurantList.add(res);
-//			res = new Restaurant("凯威啤酒屋", R.drawable.restaurant_kaiweipijiuwu
-//					+ "", Restaurant.BIG, "光谷大洋百货4楼", "13098840196", comments);
-//			restaurantList.add(res);
-//
-//		}
+		RestaurantOperation op = new RestaurantOperation();
+		op.getMyLove(SharedPreferencesUtil.getCurrentUserStringShare(
+				getActivity(), SharedPreferencesUtil.USER_ID, ""),
+				new OperationListener<Restaurant>() {
+
+					@Override
+					public void onSuccess(List<Restaurant> list) {
+						restaurantList.clear();
+						restaurantList.addAll(list);
+						mAdapter.notifyDataSetChanged();
+						super.onSuccess(list);
+					}
+
+					@Override
+					public void onFailure() {
+						// TODO Auto-generated method stub
+						super.onFailure();
+					}
+
+				});
 	}
 
 	public void onActivityCreated(Bundle savedInstanceState) {
