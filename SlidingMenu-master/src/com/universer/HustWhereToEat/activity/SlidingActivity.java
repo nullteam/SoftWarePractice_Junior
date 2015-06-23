@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.Window;
 
 import com.universer.HustWhereToEat.R;
@@ -17,7 +16,6 @@ import com.universer.HustWhereToEat.fragment.RightFragment;
 import com.universer.HustWhereToEat.fragment.RouteFragment;
 import com.universer.HustWhereToEat.fragment.SettingFragment;
 import com.universer.HustWhereToEat.fragment.SurroundFragment;
-import com.universer.HustWhereToEat.fragment.AllFragment.MyPageChangeListener;
 import com.universer.HustWhereToEat.util.IChangeFragment;
 import com.universer.HustWhereToEat.view.SlidingMenu;
 
@@ -37,7 +35,7 @@ public class SlidingActivity extends FragmentActivity implements
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main);
 		init();
-		initListener(allFragment);
+//		initListener(allFragment);
 
 	}
 
@@ -69,21 +67,6 @@ public class SlidingActivity extends FragmentActivity implements
 
 	}
 
-	private void initListener(final AllFragment fragment) {
-		fragment.setMyPageChangeListener(new MyPageChangeListener() {
-			@Override
-			public void onPageSelected(int position) {
-				Log.e(TAG, "onPageSelected : " + position);
-				if (fragment.isFirst()) {
-					mSlidingMenu.setCanSliding(true, false);
-				} else if (fragment.isEnd()) {
-					mSlidingMenu.setCanSliding(false, true);
-				} else {
-					mSlidingMenu.setCanSliding(false, false);
-				}
-			}
-		});
-	}
 
 	public void showLeft() {
 		mSlidingMenu.showLeftView();
@@ -101,7 +84,7 @@ public class SlidingActivity extends FragmentActivity implements
 		switch (position) {
 		case 0:
 			fragment = new AllFragment(this);
-			initListener((AllFragment) fragment);
+//			initListener((AllFragment) fragment);
 			break;
 		case 1:
 			fragment = new RouteFragment();
