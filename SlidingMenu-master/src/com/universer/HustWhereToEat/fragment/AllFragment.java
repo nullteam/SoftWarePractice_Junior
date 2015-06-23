@@ -23,14 +23,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -42,19 +41,11 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
 import com.baidu.mapapi.SDKInitializer;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
-import com.baidu.mapapi.map.Marker;
-import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.BaiduMap.OnMarkerClickListener;
-import com.baidu.mapapi.map.InfoWindow.OnInfoWindowClickListener;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
-import com.baidu.mapapi.overlayutil.OverlayManager;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
@@ -71,9 +62,7 @@ import com.universer.HustWhereToEat.activity.DetailActivity;
 import com.universer.HustWhereToEat.activity.SlidingActivity;
 import com.universer.HustWhereToEat.activity.SurroundActivity;
 import com.universer.HustWhereToEat.adapter.RestaurantListAdapter;
-import com.universer.HustWhereToEat.adapter.ScrollingTabsAdapter;
 import com.universer.HustWhereToEat.model.Restaurant;
-import com.universer.HustWhereToEat.view.ScrollableTabView;
 
 public class AllFragment extends Fragment implements
 		OnRefreshListener<ListView>,OnGetPoiSearchResultListener{
@@ -88,7 +77,7 @@ public class AllFragment extends Fragment implements
 	private PoiSearch mPoiSearch = null;
 	private LocationClient mLocationClient = null;
 	private MyLocationData mLocationData;
-
+	private double price;
 	private Activity mActivity;
 
 	public AllFragment() {
@@ -115,6 +104,7 @@ public class AllFragment extends Fragment implements
 		SDKInitializer.initialize(mActivity.getApplicationContext());
 		View mView = inflater.inflate(R.layout.resturants_layout, null);
 		findView(mView);
+		bindEvents();
 		iniView();
 		initLoc();
 		Log.e("start", "start");
@@ -133,6 +123,25 @@ public class AllFragment extends Fragment implements
 		resAdapter = new RestaurantListAdapter(mActivity, restaurants);
 		resListView.setAdapter(resAdapter);
 		resListView.setOnRefreshListener(this);
+	}
+	
+	private void bindEvents() {
+		resListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent i = new Intent(mActivity,
+						DetailActivity.class);
+				i.putExtra("ADDRESS", restaurants.get(position).getAddress());
+				i.putExtra("PHONE", restaurants.get(position).getPhone());
+				i.putExtra("NAME", restaurants.get(position).getName());
+				i.putExtra("ID", restaurants.get(position).getId());
+				i.putExtra("PRICE", price);
+				startActivity(i);
+			}
+			
+		});
 	}
 
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -247,8 +256,15 @@ public class AllFragment extends Fragment implements
 	}
 
 	@Override
-	public void onGetPoiDetailResult(PoiDetailResult arg0) {
-		
+	public void onGetPoiDetailResult(PoiDetailResult result) {
+		if (result.error != SearchResult.ERRORNO.NO_ERROR) {
+	        //详情检索失败
+	        // result.error请参考SearchResult.ERRORNO 
+	    }else {
+	        //检索成功
+	    	price = result.getPrice();
+	    }
+//		this.price =  result.getPrice();
 	}
 
 	@Override

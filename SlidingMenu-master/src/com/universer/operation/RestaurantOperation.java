@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.loopj.android.http.RequestParams;
 import com.universer.HustWhereToEat.database.HWDataBaseHelper;
 import com.universer.HustWhereToEat.database.HWDatabaseHelperManager;
@@ -73,6 +74,9 @@ public class RestaurantOperation {
 								.getInstance().getHelper();
 						Dao<Restaurant, String> resDao = helper
 								.getDao(Restaurant.class);
+						DeleteBuilder<Restaurant, String> deleteBuilder = resDao.deleteBuilder();
+						deleteBuilder.where().isNotNull("id");
+						deleteBuilder.delete();
 						for (Restaurant restaurant : restaurants) {
 							resDao.createOrUpdate(restaurant);
 						}
@@ -183,6 +187,29 @@ public class RestaurantOperation {
 				listener.onFailure("网络请求失败");
 			}
 			
+		});
+	}
+	
+	public void getResLike(String restaurantId,String userId,final OperationListener<String> listener){
+		String url = "/processFavorite";
+		HWAsyncHttpClient client = new HWAsyncHttpClient();
+		RequestParams params = new RequestParams();
+		params.put("userId", userId);
+		params.put("restaurantId", restaurantId);
+		client.post(null, url, params, new HWResponseHandler() {
+			public void onSuccess(JSONObject jo) {
+				try {
+					String result = jo.getString("result");
+					if(result.equals("0")){
+						String isLike = jo.getString("isLike");
+						listener.onSuccess(isLike);
+					}else{
+						listener.onFailure();
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
 		});
 	}
 

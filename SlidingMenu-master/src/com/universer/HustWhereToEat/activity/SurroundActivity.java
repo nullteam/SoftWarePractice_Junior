@@ -58,6 +58,7 @@ public class SurroundActivity extends Activity implements
 	BitmapDescriptor bd;
 	View restautrantPopView;
 	private MyLocationData mLocationData;
+	private double price;
 	private BDLocationListener mLocationListener = new BDLocationListener() {
 		@Override
 		public void onReceiveLocation(BDLocation location) {
@@ -219,9 +220,9 @@ public class SurroundActivity extends Activity implements
 		    } 
 		    else {
 		        //检索成功
+		    	price = result.getPrice();
 		    	Log.v("detail_url", result.getDetailUrl());
 		    }
-		
 	}
 
 	@Override
@@ -282,6 +283,7 @@ public class SurroundActivity extends Activity implements
 								i.putExtra("PHONE", info.phoneNum);
 								i.putExtra("NAME", info.name);
 								i.putExtra("ID", info.uid);
+								i.putExtra("PRICE", price);
 								mBaiduMap.hideInfoWindow();
 								startActivity(i);
 							}

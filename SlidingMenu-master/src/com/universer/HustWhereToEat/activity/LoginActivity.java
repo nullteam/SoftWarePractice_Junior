@@ -29,7 +29,6 @@ import com.universer.operation.UserOperation;
 public class LoginActivity extends Activity {
 	private Button login_Button;
 	private Button registButton;
-	private Button forwardseeBtn;
 	private EditText user;
 	private EditText password;
 	
@@ -50,7 +49,6 @@ public class LoginActivity extends Activity {
 		password = (EditText) findViewById(R.id.password);
 		login_Button = (Button) findViewById(R.id.login);
 		registButton = (Button) findViewById(R.id.regist_button);
-		forwardseeBtn = (Button) findViewById(R.id.forwardsee);
 	}
 	
 	@SuppressLint("NewApi")
@@ -71,13 +69,6 @@ public class LoginActivity extends Activity {
 			public void onClick(View v) {
 				Intent i = new Intent(LoginActivity.this,RegistActivity.class);
 				startActivity(i);
-			}
-		});
-		forwardseeBtn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				LoginActivity.this.startActivity(new Intent(LoginActivity.this, SlidingActivity.class));
 			}
 		});
 		login_Button.setOnClickListener(new OnClickListener() {

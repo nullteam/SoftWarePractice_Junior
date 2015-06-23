@@ -29,8 +29,7 @@
         android:layout_height="110dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="85dp"
-        android:background="@drawable/logo" >
+        android:layout_marginTop="85dp" >
     </RelativeLayout>
 
     <EditText

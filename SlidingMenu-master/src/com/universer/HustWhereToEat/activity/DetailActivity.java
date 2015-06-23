@@ -1,10 +1,13 @@
 package com.universer.HustWhereToEat.activity;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,8 +20,10 @@ import android.widget.Toast;
 
 import com.universer.HustWhereToEat.R;
 import com.universer.HustWhereToEat.listener.OperationListener;
+import com.universer.HustWhereToEat.model.Restaurant;
 import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
 import com.universer.operation.OrderOperation;
+import com.universer.operation.RestaurantOperation;
 import com.universer.operation.UserOperation;
 
 public class DetailActivity extends Activity {
@@ -27,9 +32,11 @@ public class DetailActivity extends Activity {
 	private TextView phoneTxt;
 	private TextView nameTxt;
 	private TextView numTxt;
+	private TextView priceTxt;
 	private Button addBtn;
 	private Button reduceBtn;
 	private ImageView restautantImg;
+	private ImageView likeImg;
 	private ListView commentListView;
 	private Intent mIntent;
 //	List<String> comments;
@@ -39,10 +46,11 @@ public class DetailActivity extends Activity {
 	String restaurantAddress = null;
 	String restaurantId = null;
 	String restaurantPhone = null;
+	double price = 0;
+	private boolean isLike;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detail);
 		mIntent = getIntent();
@@ -50,6 +58,9 @@ public class DetailActivity extends Activity {
 		if (mIntent != null) {
 			initView();
 		}
+		
+		bindEvents();
+		queryLike(restaurantId);
 
 	}
 
@@ -60,12 +71,14 @@ public class DetailActivity extends Activity {
 		restaurantAddress = mIntent.getStringExtra("ADDRESS");
 		restaurantId = mIntent.getStringExtra("UID");
 		restaurantPhone = mIntent.getStringExtra("PHONE");
+		price = mIntent.getDoubleExtra("PRICE", 0.0);
 //		comments = mIntent.getStringArrayListExtra("COMMENT");
 //		Log.v("URL", url);
 //		restautantImg.setImageResource(Integer.parseInt(url));
 		addressTxt.setText(restaurantAddress);
 		phoneTxt.setText(restaurantPhone);
 		nameTxt.setText(restaurantName);
+		priceTxt.setText(price+"元");
 	}
 	
 	private void bindEvents() {
@@ -123,6 +136,40 @@ public class DetailActivity extends Activity {
 //				DetailActivity.this.startActivity(intent);
 			}
 		});
+		
+		likeImg.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				RestaurantOperation resOperation = new RestaurantOperation();
+				List<String> commentList = new ArrayList<String>();
+				SharedPreferences curreentAccountsPrefs = SharedPreferencesUtil.
+						setSettingSharedPreferences(getApplicationContext());
+				String userId = curreentAccountsPrefs.getString("userName","");
+				Restaurant res = new Restaurant(restaurantId, restaurantName," ", restaurantAddress, restaurantPhone, isLike,commentList);
+				if(isLike){
+					resOperation.deleteMyLove(res, userId, new OperationListener<String>(){
+						public void onSuccess(String e) {
+							likeImg.setImageDrawable(getResources().getDrawable(R.drawable.zan_img));
+						}
+						
+						public void onFailure(String e) {
+							Toast.makeText(DetailActivity.this,e,Toast.LENGTH_SHORT).show();
+						};
+					});
+				}else{
+					resOperation.setMyLove(res, userId, new OperationListener<String>(){
+						public void onSuccess(String e) {
+							likeImg.setImageDrawable(getResources().getDrawable(R.drawable.zan_img_new));
+						}
+						
+						public void onFailure(String e) {
+							Toast.makeText(DetailActivity.this,e,Toast.LENGTH_SHORT).show();
+						};
+					});
+				}
+			}
+		});
 	}
 
 	private void findView() {
@@ -135,6 +182,28 @@ public class DetailActivity extends Activity {
 		numTxt = (TextView)findViewById(R.id.num_txt);
 		addBtn = (Button)findViewById(R.id.add_bt);
 		reduceBtn = (Button)findViewById(R.id.reduce_bt);
+		likeImg = (ImageView)findViewById(R.id.like_img);
+		priceTxt = (TextView)findViewById(R.id.editText2);
+	}
+	
+	public void queryLike(String restaurantId){
+		SharedPreferences curreentAccountsPrefs = SharedPreferencesUtil.
+				setSettingSharedPreferences(getApplicationContext());
+		String userId = curreentAccountsPrefs.getString("userName","");
+		RestaurantOperation resOperation = new RestaurantOperation();
+		resOperation.getResLike(restaurantId, userId, new OperationListener<String>(){
+			@Override
+			public void onSuccess(String e) {
+				super.onSuccess(e);
+				if(e.equals("1")){
+					DetailActivity.this.isLike = true;
+					likeImg.setImageDrawable(getResources().getDrawable(R.drawable.zan_img_new));
+				}else{
+					DetailActivity.this.isLike = false;
+					likeImg.setImageDrawable(getResources().getDrawable(R.drawable.zan_img));
+				}
+			}
+		});
 	}
 
 	@Override
