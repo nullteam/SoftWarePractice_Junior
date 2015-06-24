@@ -152,7 +152,7 @@ public class RestaurantOperation {
 		HWAsyncHttpClient client = new HWAsyncHttpClient();
 		String restaurantId = res.getId();
 		RequestParams params = new RequestParams();
-		params.put("userId", userId);
+		params.put("userName", userId);
 		params.put("code", "2");
 		params.put("restaurantId", restaurantId);
 		client.post(null, url, params, new HWResponseHandler(){
