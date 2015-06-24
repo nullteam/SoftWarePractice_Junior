@@ -55,7 +55,7 @@ public class RestaurantOperation {
 						String restaurantName = js.getString("restaurantName");
 						String restaurantPhone = js
 								.getString("restaurantPhone");
-						String restaurantId = js.getString("restaurantId");
+						String restaurantId = js.getString("id");
 						String address = js.getString("restaurantAddress");
 						res = new Restaurant(restaurantId, restaurantName,
 								null, address, restaurantPhone, true, null);
