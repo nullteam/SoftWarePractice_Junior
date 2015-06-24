@@ -3,6 +3,7 @@ package com.universer.HustWhereToEat.database;
 import java.sql.SQLException;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
@@ -11,6 +12,8 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.universer.HustWhereToEat.model.Order;
 import com.universer.HustWhereToEat.model.Restaurant;
+import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
+import com.universer.operation.RestaurantOperation;
 
 public class HWDataBaseHelper extends OrmLiteSqliteOpenHelper {
 	private static final String DATABASE_NAME = "hwsqlite.db";
@@ -19,6 +22,7 @@ public class HWDataBaseHelper extends OrmLiteSqliteOpenHelper {
 	private Dao<Order, String> orderDao;
 
 	public HWDataBaseHelper(Context context) {
+		//TODO 根据userID创建数据库,并且在SharedPreferenceUtil中修改方法返回userId
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 

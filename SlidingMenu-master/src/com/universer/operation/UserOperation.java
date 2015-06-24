@@ -29,17 +29,10 @@ public class UserOperation {
 					String code = jo.getString("registerResult");
 					if (code.equals("0")) {
 						listener.onSuccess();
-						SharedPreferences accountsPrefs = SharedPreferencesUtil.
-								setUserSharedPreference(context, name);
-						Editor editor=accountsPrefs.edit();
-						editor.putString("userName",name);
-						editor.putString("password", password);
-						editor.commit();
-						accountsPrefs = SharedPreferencesUtil.setUserSharedPreference(context, name);
-						editor=accountsPrefs.edit();
-						editor.putString("userName", name);
-						editor.putString("password", password);
-						editor.commit();
+						SharedPreferencesUtil.setUserSharedPreference(context, name);
+						SharedPreferencesUtil.setUserStringShare(context,name,password);
+						SharedPreferencesUtil.setCurrentAccountSharedPreferences(context);
+						SharedPreferencesUtil.setCurrentUserStringShare(context, name, password);
 					} else {
 						listener.onFailure(code);
 					}
@@ -70,18 +63,10 @@ public class UserOperation {
 					String code = jo.getString("loginResult");
 					if (code.equals("0")) {
 						listener.onSuccess();
-						SharedPreferences accountsPrefs = SharedPreferencesUtil.
-								setUserSharedPreference(context, name);
-						
-						Editor editor=accountsPrefs.edit();
-						editor.putString("userName", name);
-						editor.putString("password", password);
-						editor.commit();
-						accountsPrefs = SharedPreferencesUtil.setUserSharedPreference(context, name);
-						editor=accountsPrefs.edit();
-						editor.putString("userName", name);
-						editor.putString("password", password);
-						editor.commit();
+						SharedPreferencesUtil.setUserSharedPreference(context, name);
+						SharedPreferencesUtil.setUserStringShare(context,name,password);
+						SharedPreferencesUtil.setCurrentAccountSharedPreferences(context);
+						SharedPreferencesUtil.setCurrentUserStringShare(context, name, password);
 					} else {
 						listener.onFailure(code);
 					}

@@ -53,10 +53,8 @@ public class LoginActivity extends Activity {
 	
 	@SuppressLint("NewApi")
 	private void autoLogin() {
-		SharedPreferences curreentAccountsPrefs = SharedPreferencesUtil.
-									setSettingSharedPreferences(getApplicationContext());
-		factorOneStr = curreentAccountsPrefs.getString("userName","");
-		factorTwoStr = curreentAccountsPrefs.getString("password","");
+		factorOneStr = SharedPreferencesUtil.getCurrentUserStringShare(LoginActivity.this,"userName","");
+		factorTwoStr = SharedPreferencesUtil.getCurrentUserStringShare(LoginActivity.this,"password","");
 		if(!factorOneStr.isEmpty() && factorTwoStr.isEmpty()){
 			requestLogin();
 		}

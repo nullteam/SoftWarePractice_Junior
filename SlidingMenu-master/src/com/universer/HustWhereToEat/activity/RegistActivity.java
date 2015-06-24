@@ -93,38 +93,5 @@ public class RegistActivity extends Activity {
 						.show();
 			}
 		});
-		// HWAsyncHttpClient client = new HWAsyncHttpClient();
-		// client.post(RegistActivity.this, "", null, new HWResponseHandler(){
-		//
-		// @Override
-		// public void onSuccess(JSONObject jo) {
-		// try {
-		// String result = jo.getString("result");
-		// if(result.equals("")){
-		//
-		// }else{
-		// SharedPreferences accountsPrefs = SharedPreferencesUtil.
-		// setUserSharedPreference(RegistActivity.this, factorOneStr);
-		// Editor editor=accountsPrefs.edit();
-		// editor.putString("passWord", factorTwoStr);
-		// editor.commit();
-		// Intent intent = new Intent();
-		// intent.putExtra("one", factorOneStr);
-		// intent.putExtra("two", factorTwoStr);
-		// intent.setClass(RegistActivity.this, SlidingActivity.class);
-		// RegistActivity.this.startActivity(intent);
-		// }
-		// } catch (JSONException e) {
-		// e.printStackTrace();
-		// }
-		// super.onSuccess(jo);
-		// }
-		//
-		// @Override
-		// public void onFailure() {
-		// super.onFailure();
-		// }
-		//
-		// });
 	}
 }

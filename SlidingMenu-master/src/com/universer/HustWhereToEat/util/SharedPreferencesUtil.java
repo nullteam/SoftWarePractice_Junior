@@ -2,9 +2,10 @@ package com.universer.HustWhereToEat.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 public class SharedPreferencesUtil {
-	public static final String USER_ID="user_name";
+	public static final String USER_ID="userName";
 	public static final String SETTING="setting";
 	public static final String CURRENT_ACCOUNT="currenrAccount";
 	
@@ -23,6 +24,14 @@ public class SharedPreferencesUtil {
 		return userSharedPreferences.getString(key, defaultValue);
 	}
 	
+	public static void setUserStringShare(Context context,String userName,String password){
+		SharedPreferences userSharedPreferences=context.getSharedPreferences(userName,Context.MODE_PRIVATE);
+		Editor editor=userSharedPreferences.edit();
+		editor.putString("userName",userName);
+		editor.putString("password",password);
+		editor.commit();
+	}
+	
 	public static SharedPreferences setSettingSharedPreferences(Context context){
 		SharedPreferences settingSharedPreferences=context.getSharedPreferences(SETTING,Context.MODE_PRIVATE);
 		return settingSharedPreferences;
@@ -36,5 +45,13 @@ public class SharedPreferencesUtil {
 	public static String getCurrentUserStringShare(Context context,String key,String defaultValue){
 		SharedPreferences currentSharedPreferences=context.getSharedPreferences(CURRENT_ACCOUNT,Context.MODE_PRIVATE);
 		return currentSharedPreferences.getString(key, defaultValue);
+	}
+	
+	public static void setCurrentUserStringShare(Context context,String userName,String password){
+		SharedPreferences userSharedPreferences=context.getSharedPreferences(CURRENT_ACCOUNT,Context.MODE_PRIVATE);
+		Editor editor=userSharedPreferences.edit();
+		editor.putString("userName",userName);
+		editor.putString("password",password);
+		editor.commit();
 	}
 }

@@ -143,9 +143,7 @@ public class DetailActivity extends Activity {
 			public void onClick(View v) {
 				RestaurantOperation resOperation = new RestaurantOperation();
 				List<String> commentList = new ArrayList<String>();
-				SharedPreferences curreentAccountsPrefs = SharedPreferencesUtil.
-						setSettingSharedPreferences(getApplicationContext());
-				String userId = curreentAccountsPrefs.getString("userName","");
+				String userId = SharedPreferencesUtil.getCurrentUserStringShare(DetailActivity.this,"userName","");
 				Restaurant res = new Restaurant(restaurantId, restaurantName," ", restaurantAddress, restaurantPhone, isLike,commentList);
 				if(isLike){
 					resOperation.deleteMyLove(res, userId, new OperationListener<String>(){
@@ -187,9 +185,7 @@ public class DetailActivity extends Activity {
 	}
 	
 	public void queryLike(String restaurantId){
-		SharedPreferences curreentAccountsPrefs = SharedPreferencesUtil.
-				setSettingSharedPreferences(getApplicationContext());
-		String userId = curreentAccountsPrefs.getString("userName","");
+		String userId = SharedPreferencesUtil.getCurrentUserStringShare(DetailActivity.this,"userName","");
 		RestaurantOperation resOperation = new RestaurantOperation();
 		resOperation.getResLike(restaurantId, userId, new OperationListener<String>(){
 			@Override

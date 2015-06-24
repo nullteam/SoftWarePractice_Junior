@@ -90,7 +90,7 @@ public class MyLoveFragment extends BaseFragment {
 	private void initData() {
 		RestaurantOperation op = new RestaurantOperation();
 		op.getMyLove(SharedPreferencesUtil.getCurrentUserStringShare(
-				getActivity(), SharedPreferencesUtil.USER_ID, ""),
+				getActivity(),"userName", ""),
 				new OperationListener<Restaurant>() {
 
 					@Override
