@@ -131,12 +131,13 @@ public class AllFragment extends Fragment implements
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				int realPosition = (int)id;
 				Intent i = new Intent(mActivity,
 						DetailActivity.class);
-				i.putExtra("ADDRESS", restaurants.get(position).getAddress());
-				i.putExtra("PHONE", restaurants.get(position).getPhone());
-				i.putExtra("NAME", restaurants.get(position).getName());
-				i.putExtra("ID", restaurants.get(position).getId());
+				i.putExtra("ADDRESS", restaurants.get(realPosition).getAddress());
+				i.putExtra("PHONE", restaurants.get(realPosition).getPhone());
+				i.putExtra("NAME", restaurants.get(realPosition).getName());
+				i.putExtra("ID", restaurants.get(realPosition).getId());
 				i.putExtra("PRICE", price);
 				startActivity(i);
 			}

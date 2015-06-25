@@ -8,6 +8,8 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "restaurant")
 public class Restaurant extends BaseDaoEnabled<Restaurant, String> {
+	@DatabaseField(generatedId = true)
+	private int keyId;
 	@DatabaseField(generatedId = false)
 	private String id;
 	@DatabaseField

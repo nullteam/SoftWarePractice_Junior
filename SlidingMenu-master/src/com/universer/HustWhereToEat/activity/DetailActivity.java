@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -69,7 +70,7 @@ public class DetailActivity extends Activity {
 		restaurantName = mIntent.getStringExtra("NAME");
 //		String url = mIntent.getStringExtra("IMAGE");
 		restaurantAddress = mIntent.getStringExtra("ADDRESS");
-		restaurantId = mIntent.getStringExtra("UID");
+		restaurantId = mIntent.getStringExtra("ID");
 		restaurantPhone = mIntent.getStringExtra("PHONE");
 		price = mIntent.getDoubleExtra("PRICE", 0.0);
 //		comments = mIntent.getStringArrayListExtra("COMMENT");
@@ -145,12 +146,13 @@ public class DetailActivity extends Activity {
 				List<String> commentList = new ArrayList<String>();
 				String userId = SharedPreferencesUtil.getCurrentUserStringShare(DetailActivity.this,"userName","");
 				Restaurant res = new Restaurant(restaurantId, restaurantName," ", restaurantAddress, restaurantPhone, isLike,commentList);
+//				Restaurant res = new Restaurant("5ea1aa1c0dcid","KFC"," ","KFC","18202720293", isLike,commentList);
 				if(isLike){
 					resOperation.deleteMyLove(res, userId, new OperationListener<String>(){
 						public void onSuccess(String e) {
 							likeImg.setImageDrawable(getResources().getDrawable(R.drawable.zan_img));
+							isLike = false;
 						}
-						
 						public void onFailure(String e) {
 							Toast.makeText(DetailActivity.this,e,Toast.LENGTH_SHORT).show();
 						};
@@ -158,9 +160,10 @@ public class DetailActivity extends Activity {
 				}else{
 					resOperation.setMyLove(res, userId, new OperationListener<String>(){
 						public void onSuccess(String e) {
+							Log.e("manm","man");
 							likeImg.setImageDrawable(getResources().getDrawable(R.drawable.zan_img_new));
+							isLike = true;
 						}
-						
 						public void onFailure(String e) {
 							Toast.makeText(DetailActivity.this,e,Toast.LENGTH_SHORT).show();
 						};
