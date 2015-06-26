@@ -84,83 +84,86 @@ public class RoutelineActivity extends Activity implements
 				return;
 			}
 			if (result.error == SearchResult.ERRORNO.NO_ERROR) {
-				mBaiduMap.clear();
-				OverlayManager m = new OverlayManager(mBaiduMap) {
+				if(mBaiduMap != null){
+					mBaiduMap.clear();
+					OverlayManager m = new OverlayManager(mBaiduMap) {
 
-					@Override
-					public boolean onMarkerClick(Marker arg0) {
+						@Override
+						public boolean onMarkerClick(Marker arg0) {
 
-						return false;
-					}
-
-					@Override
-					public List<OverlayOptions> getOverlayOptions() {
-						List<OverlayOptions> options = new ArrayList<OverlayOptions>();
-						for (int i = 0; i < result.getAllPoi().size(); i++) {
-							PoiInfo info = result.getAllPoi().get(i);
-							poiLLMap.put(info.location, info);
-							OverlayOptions option = new MarkerOptions()
-									.position(info.location).icon(bd);
-							options.add(option);
-						}
-						return options;
-					}
-				};
-				m.addToMap();
-				m.zoomToSpan();
-				mBaiduMap.setOnMarkerClickListener(new OnMarkerClickListener() {
-
-					@Override
-					public boolean onMarkerClick(Marker marker) {
-
-						final PoiInfo info = poiLLMap.get(marker.getPosition());
-						if (info != null) {
-							OnInfoWindowClickListener listener = null;
-							restautrantPopView = getLayoutInflater().inflate(
-									R.layout.activity_routeline_popview, null);
-							((TextView) restautrantPopView
-									.findViewById(R.id.popView_addressTxt))
-									.setText(info.address);
-							((TextView) restautrantPopView
-									.findViewById(R.id.popView_nameTxt))
-									.setText(info.name);
-							View busButton = restautrantPopView
-									.findViewById(R.id.bus_route);
-							View driveButton = restautrantPopView
-									.findViewById(R.id.drive_route);
-							busButton.setOnClickListener(new OnClickListener() {
-
-								@Override
-								public void onClick(View v) {
-									searchRoute(endLocation, ROUTE_BUS);
-									mBaiduMap.hideInfoWindow();
-								}
-							});
-							driveButton
-									.setOnClickListener(new OnClickListener() {
-
-										@Override
-										public void onClick(View v) {
-											searchRoute(endLocation,
-													ROUTE_DRIVE);
-											mBaiduMap.hideInfoWindow();
-										}
-									});
-							// listener = new OnInfoWindowClickListener() {
-							// public void onInfoWindowClick() {
-							//
-							// }
-							// };
-							endLocation = info.location;
-							InfoWindow mInfoWindow = new InfoWindow(
-									restautrantPopView, info.location, -47);
-							mBaiduMap.showInfoWindow(mInfoWindow);
+							return false;
 						}
 
-						return true;
-					}
-				});
-				return;
+						@Override
+						public List<OverlayOptions> getOverlayOptions() {
+							List<OverlayOptions> options = new ArrayList<OverlayOptions>();
+							for (int i = 0; i < result.getAllPoi().size(); i++) {
+								PoiInfo info = result.getAllPoi().get(i);
+								poiLLMap.put(info.location, info);
+								OverlayOptions option = new MarkerOptions()
+										.position(info.location).icon(bd);
+								options.add(option);
+							}
+							return options;
+						}
+					};
+					m.addToMap();
+					m.zoomToSpan();
+					mBaiduMap.setOnMarkerClickListener(new OnMarkerClickListener() {
+
+						@Override
+						public boolean onMarkerClick(Marker marker) {
+
+							final PoiInfo info = poiLLMap.get(marker.getPosition());
+							if (info != null) {
+								OnInfoWindowClickListener listener = null;
+								restautrantPopView = getLayoutInflater().inflate(
+										R.layout.activity_routeline_popview, null);
+								((TextView) restautrantPopView
+										.findViewById(R.id.popView_addressTxt))
+										.setText(info.address);
+								((TextView) restautrantPopView
+										.findViewById(R.id.popView_nameTxt))
+										.setText(info.name);
+								View busButton = restautrantPopView
+										.findViewById(R.id.bus_route);
+								View driveButton = restautrantPopView
+										.findViewById(R.id.drive_route);
+								busButton.setOnClickListener(new OnClickListener() {
+
+									@Override
+									public void onClick(View v) {
+										searchRoute(endLocation, ROUTE_BUS);
+										mBaiduMap.hideInfoWindow();
+									}
+								});
+								driveButton
+										.setOnClickListener(new OnClickListener() {
+
+											@Override
+											public void onClick(View v) {
+												searchRoute(endLocation,
+														ROUTE_DRIVE);
+												mBaiduMap.hideInfoWindow();
+											}
+										});
+								// listener = new OnInfoWindowClickListener() {
+								// public void onInfoWindowClick() {
+								//
+								// }
+								// };
+								endLocation = info.location;
+								InfoWindow mInfoWindow = new InfoWindow(
+										restautrantPopView, info.location, -47);
+								mBaiduMap.showInfoWindow(mInfoWindow);
+							}
+
+							return true;
+						}
+					});
+					return;
+				}
+				
 			}
 
 		}

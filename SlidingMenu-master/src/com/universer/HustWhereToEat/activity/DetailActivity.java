@@ -1,5 +1,6 @@
 package com.universer.HustWhereToEat.activity;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +10,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -120,7 +122,11 @@ public class DetailActivity extends Activity {
 								intent.putExtra("restaurantAddress", restaurantAddress);
 								intent.putExtra("restaurantPhone", restaurantPhone);
 								intent.putExtra("num", num);
-								intent.putExtra("time", new SimpleDateFormat("HH:mm:ss").format(new Date()).toString());
+								
+//								Time t = new Time();
+//								Log.e("time",t.toString()+"");
+//								t.toMillis(true);
+								intent.putExtra("time",Long.toString(System.currentTimeMillis()));
 								startActivity(intent);
 								super.onSuccess();
 							}

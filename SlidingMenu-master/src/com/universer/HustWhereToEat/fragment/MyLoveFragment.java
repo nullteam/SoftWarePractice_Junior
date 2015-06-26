@@ -38,7 +38,7 @@ public class MyLoveFragment extends BaseFragment {
 			Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.mylove, null);
-		initData();
+//		initData();
 		findView(view);
 		initView();
 		initData();
@@ -74,6 +74,7 @@ public class MyLoveFragment extends BaseFragment {
 		i.putExtra("PHONE", tempRes.getPhone());
 		i.putExtra("NAME", tempRes.getName());
 		i.putExtra("IMAGE", tempRes.getImageUrl());
+		i.putExtra("PRICE",tempRes.getPrice());
 		i.putStringArrayListExtra("COMMENT",
 				(ArrayList<String>) tempRes.getCommentList());
 		getActivity().startActivity(i);

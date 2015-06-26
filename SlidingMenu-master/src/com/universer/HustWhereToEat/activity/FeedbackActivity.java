@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.universer.HustWhereToEat.R;
 import com.universer.HustWhereToEat.listener.OperationListener;
@@ -38,12 +39,13 @@ public class FeedbackActivity extends Activity {
 					operation.commitFeedback(editText.getText().toString(), FeedbackActivity.this,new OperationListener<String>(){
 						@Override
 						public void onSuccess() {
-							// TODO Auto-generated method stub
+							Toast.makeText(FeedbackActivity.this, "反馈提交成功",Toast.LENGTH_SHORT).show();
+							finish();
 						}
 						
 						@Override
 						public void onFailure() {
-							// TODO Auto-generated method stub
+							Toast.makeText(FeedbackActivity.this, "提交失败",Toast.LENGTH_SHORT).show();
 						}
 					});
 				}

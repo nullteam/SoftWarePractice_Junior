@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.universer.HustWhereToEat.R;
 import com.universer.HustWhereToEat.activity.AboutActivity;
+import com.universer.HustWhereToEat.activity.FeedbackActivity;
 import com.universer.HustWhereToEat.activity.LoginActivity;
 import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
 
@@ -32,6 +33,7 @@ public class SettingFragment extends Fragment {
 		
 		findView(view);
 		initView();
+		bindEvents();
 		return view;
 	}
 	
@@ -45,7 +47,7 @@ public class SettingFragment extends Fragment {
 	}
 	
 	private void initView() {
-		mTopTitleView.setText(getString(R.string.tab_mylove));
+		mTopTitleView.setText(getString(R.string.tab_settings));
 		mTopBackView.setBackgroundResource(R.drawable.biz_ugc_main_back_normal);
 	}
 	
@@ -57,6 +59,7 @@ public class SettingFragment extends Fragment {
 				SharedPreferencesUtil.setCurrentUserStringShare(getActivity(),"","");
 				Intent intent = new Intent(getActivity(), LoginActivity.class);
 				startActivity(intent);
+				getActivity().finish();
 			}
 		});
 		
@@ -73,7 +76,8 @@ public class SettingFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				
+				Intent intent = new Intent(getActivity(), FeedbackActivity.class);
+				startActivity(intent);
 			}
 		});
 	}

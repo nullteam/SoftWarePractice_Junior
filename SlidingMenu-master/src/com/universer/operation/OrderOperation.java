@@ -8,6 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.loopj.android.http.RequestParams;
@@ -18,6 +20,7 @@ import com.universer.HustWhereToEat.http.HWResponseHandler;
 import com.universer.HustWhereToEat.listener.OperationListener;
 import com.universer.HustWhereToEat.model.Order;
 import com.universer.HustWhereToEat.model.Restaurant;
+import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
 
 public class OrderOperation {
 
@@ -67,7 +70,7 @@ public class OrderOperation {
 		});
 	}
 	
-	public void queryMyOrders(String userID,final OperationListener<Order> listener) {
+	public void queryMyOrders(final String userID,final OperationListener<Order> listener) {
 		String url = "/processOrder";
 		HWDataBaseHelper helper;
 		List<Order> orderList = null;
@@ -95,8 +98,8 @@ public class OrderOperation {
 					JSONArray js = jo.getJSONArray("result");
 					for (int i = 0; i < js.length(); i++) {
 						JSONObject json = js.getJSONObject(i);
-						orderList.add(new Order(json.getString("id"),json.getString("userID"), 
-								json.getString("restaurantId"),json.getString(" orderNum"), json.getString("restaurantName"), 
+						orderList.add(new Order(json.getString("orderId"),userID, 
+								json.getString("restaurantId"),json.getString("orderNum"), json.getString("restaurantName"), 
 								json.getString("restaurantAddress"),json.getString("restaurantPhone"),json.getString("orderTime")));
 					}
 				} catch (JSONException e) {
@@ -107,9 +110,9 @@ public class OrderOperation {
 					try {
 						HWDataBaseHelper helper = HWDatabaseHelperManager.getInstance().getHelper();
 						Dao<Order, String> orderDao = helper.getOrderDao();
-						DeleteBuilder<Order, String> deleteBuilder = orderDao.deleteBuilder();
-						deleteBuilder.where().isNotNull("orderId");
-						deleteBuilder.delete();
+//						DeleteBuilder<Order, String> deleteBuilder = orderDao.deleteBuilder();
+//						deleteBuilder.where().isNotNull("orderId");
+//						deleteBuilder.delete();
 						for (Order order : orderList) {
 							orderDao.createOrUpdate(order);
 						}

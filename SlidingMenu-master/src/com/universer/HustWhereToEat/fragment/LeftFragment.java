@@ -55,16 +55,16 @@ public class LeftFragment extends Fragment implements OnItemClickListener {
 		mListView = (ListView) view.findViewById(R.id.left_listview);
 
 		leftTxtList.add(getResources().getString(R.string.tab_all));
+		leftTxtList.add(getResources().getString(R.string.tab_surrounds));
 		leftTxtList.add(getResources().getString(R.string.tab_route));
 		leftTxtList.add(getResources().getString(R.string.tab_mylove));
 		leftTxtList.add(getResources().getString(R.string.tab_orders));
-		leftTxtList.add(getResources().getString(R.string.tab_surrounds));
 		leftTxtList.add(getResources().getString(R.string.tab_settings));
 		leftEngTxtList.add("ALL");
+		leftEngTxtList.add("ARROUND");
 		leftEngTxtList.add("ROUTE");
 		leftEngTxtList.add("LOVE");
 		leftEngTxtList.add("ORDER");
-		leftEngTxtList.add("ARROUND");
 		leftEngTxtList.add("SET");
 		leftAdapter = new LeftAdapter(leftTxtList, leftEngTxtList,
 				getActivity());

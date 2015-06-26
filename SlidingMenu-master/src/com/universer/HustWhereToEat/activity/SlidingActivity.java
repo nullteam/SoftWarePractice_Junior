@@ -86,17 +86,16 @@ public class SlidingActivity extends FragmentActivity implements
 			fragment = new AllFragment(this);
 //			initListener((AllFragment) fragment);
 			break;
-		case 1:
+		case 2:
 			fragment = new RouteFragment();
 			break;
-		case 2:
+		case 3:
 			fragment = new MyLoveFragment();
 			break;
-
-		case 3:
+		case 4:
 			fragment = new MyOrdersFragment();
 			break;
-		case 4:
+		case 1:
 			fragment = new SurroundFragment();
 			break;
 		case 5:

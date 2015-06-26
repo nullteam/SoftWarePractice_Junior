@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 public class SharedPreferencesUtil {
+	private static final String DATABASE_NAME = "hwsqlite.db";
 	public static final String USER_ID="userName";
 	public static final String SETTING="setting";
 	public static final String CURRENT_ACCOUNT="currenrAccount";
@@ -54,5 +55,9 @@ public class SharedPreferencesUtil {
 		editor.putString("userName",userName);
 		editor.putString("password",password);
 		editor.commit();
+	}
+	
+	public static String getCacheName(Context context){
+		return getCurrentUserStringShare(context,"userName","")+DATABASE_NAME;
 	}
 }

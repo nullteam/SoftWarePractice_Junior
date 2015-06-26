@@ -4,6 +4,8 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.misc.BaseDaoEnabled;
 
 public class Order extends BaseDaoEnabled<Order, String> {
+	@DatabaseField(generatedId = true)
+	private int genId;
 	@DatabaseField(generatedId = false)
 	private String orderId;
 	@DatabaseField

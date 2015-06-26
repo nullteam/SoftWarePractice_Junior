@@ -16,14 +16,16 @@ import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
 import com.universer.operation.RestaurantOperation;
 
 public class HWDataBaseHelper extends OrmLiteSqliteOpenHelper {
-	private static final String DATABASE_NAME = "hwsqlite.db";
+//	private static final String DATABASE_NAME = "hwsqlite.db";
+//	private static final String DATABASE_NAME = SharedPreferencesUtil.
 	private static final int DATABASE_VERSION = 1;
 	private Dao<Restaurant, String> restaurantDao;
 	private Dao<Order, String> orderDao;
 
 	public HWDataBaseHelper(Context context) {
 		//TODO 根据userID创建数据库,并且在SharedPreferenceUtil中修改方法返回userId
-		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+//		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		super(context,SharedPreferencesUtil.getCacheName(context), null, DATABASE_VERSION);
 	}
 
 	@Override

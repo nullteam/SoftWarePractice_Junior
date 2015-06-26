@@ -8,6 +8,7 @@ import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +44,8 @@ public class MyOrdersFragment extends Fragment {
 		
 		findView(view);
 		iniView();
-		queryOrders();
 		bindEvents();
+		queryOrders();
 		
 		return view;
 	}
@@ -70,8 +71,10 @@ public class MyOrdersFragment extends Fragment {
 			@Override
 			public void onSuccess(List<Order> list) {
 				super.onSuccess(list);
-				MyOrdersFragment.this.orderList = list;
+				orderList.clear();
+				orderList.addAll(list);
 				orderAdapter.notifyDataSetChanged();
+				Log.e("order",orderList.get(5).getRestaurantName());
 			}
 
 			@Override

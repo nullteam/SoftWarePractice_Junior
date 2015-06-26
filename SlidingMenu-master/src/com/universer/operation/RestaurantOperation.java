@@ -8,6 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.loopj.android.http.RequestParams;
@@ -59,6 +61,7 @@ public class RestaurantOperation {
 						String address = js.getString("restaurantAddress");
 						String imgUrl = js.getString("imgUrl");
 						String price = js.getString("price");
+						Log.e("price",price+"yuan");
 						res = new Restaurant(restaurantId, restaurantName,
 								imgUrl, address, restaurantPhone, true, null,Double.parseDouble(price));
 						restaurants.add(res);

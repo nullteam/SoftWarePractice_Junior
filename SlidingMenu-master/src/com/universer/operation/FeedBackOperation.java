@@ -1,5 +1,6 @@
 package com.universer.operation;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -21,13 +22,22 @@ public class FeedBackOperation {
 		client.post(null, url, params, new HWResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject jo) {
-				super.onSuccess(jo);
-				listener.onSuccess();
+				String result;
+				try {
+					result = jo.getString("result");
+					if(result.equals("1")){
+						listener.onSuccess();
+					}else{
+						listener.onFailure();
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 			}
 			
 			@Override
 			public void onFailure() {
-				super.onFailure();
+				listener.onFailure();
 			}
 		});
 	}

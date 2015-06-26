@@ -5,15 +5,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.text.Layout;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.WindowManager;
+import android.view.WindowManager.LayoutParams;
+import android.widget.ProgressBar;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.universer.HustWhereToEat.application.HWApplication;
 import com.universer.HustWhereToEat.util.Constant;
 
 public class HWAsyncHttpClient {
 	private static AsyncHttpClient mClient = new AsyncHttpClient();
+	private ProgressDialog dialog;
 	
 	static {
 		mClient.setTimeout(90000);
@@ -24,6 +33,7 @@ public class HWAsyncHttpClient {
 	}
 	public void post(Context mContext,String url,RequestParams params,final HWResponseHandler handler) {
 		mClient.post(mContext, Constant.BASE_URL+url, params, new AsyncHttpResponseHandler() {
+			
 			
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
@@ -55,11 +65,23 @@ public class HWAsyncHttpClient {
 			@Override
 			public void onFinish() {
 				handler.onFinish();
+				dialog.dismiss();
 			}
 
 			@Override
 			public void onStart() {
 				handler.onStart();
+				Log.e("start","start");
+//				progressBar = new ProgressBar(HWApplication.getInstance());
+				dialog = new ProgressDialog(HWApplication.getInstance());
+				dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+//				dialog.setContentView(progressBar);
+				dialog.show();
+//				WindowManager windowManager = (WindowManager)HWApplication.getInstance().getSystemService(Context.WINDOW_SERVICE);
+//				WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+//				params.width = LayoutParams.WRAP_CONTENT;
+//				params.height = LayoutParams.WRAP_CONTENT;
+//				params.gravity = Gravity.CENTER;
 			}
 			@Override
 			public void onFailure(int arg0, Header[] arg1, byte[] arg2, Throwable arg3) {

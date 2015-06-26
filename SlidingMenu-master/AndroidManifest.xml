@@ -59,7 +59,7 @@
     </uses-permission>
     <uses-permission android:name="android.permission.READ_LOGS" >
     </uses-permission>
-
+    <uses-permission android:name= "android.permission.SYSTEM_ALERT_WINDOW"/>
     <application
         android:name=".application.HWApplication"
         android:allowBackup="true"
@@ -105,11 +105,11 @@
         <activity android:name=".activity.OrderDetailActivity" >
         </activity>
         <activity
-            android:name=".AboutActivity"
+            android:name="com.universer.HustWhereToEat.activity.AboutActivity"
             android:label="@string/title_activity_about" >
         </activity>
         <activity
-            android:name=".FeedbackActivity">
+            android:name="com.universer.HustWhereToEat.activity.FeedbackActivity">
         </activity>
     </application>
 
