@@ -60,7 +60,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.universer.HustWhereToEat.R;
 import com.universer.HustWhereToEat.activity.DetailActivity;
 import com.universer.HustWhereToEat.activity.SlidingActivity;
-import com.universer.HustWhereToEat.activity.SurroundActivity;
 import com.universer.HustWhereToEat.adapter.RestaurantListAdapter;
 import com.universer.HustWhereToEat.model.Restaurant;
 
@@ -280,7 +279,7 @@ public class AllFragment extends Fragment implements
 			for (int i = 0; i < result.getAllPoi().size(); i++) {
 				PoiInfo info = result.getAllPoi().get(i);
 				mPoiSearch.searchPoiDetail((new PoiDetailSearchOption()).poiUid(info.uid));
-				restaurants.add(new Restaurant(info.uid,info.name, " ", info.address, info.phoneNum, false,null));
+				restaurants.add(new Restaurant(info.uid,info.name, " ", info.address, info.phoneNum, false,null,0));
 			}
 			
 			resAdapter.notifyDataSetChanged();

@@ -28,7 +28,7 @@ public class OrderOperation {
 		HWAsyncHttpClient client = new HWAsyncHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("code","1");
-		params.put("userID",userID);
+		params.put("userId",userID);
 		params.put("restaurantId",restaurantId);
 		params.put("orderNum",orderNum);
 		params.put("restaurantName",restaurantName);
@@ -86,7 +86,7 @@ public class OrderOperation {
 		HWAsyncHttpClient client = new HWAsyncHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("code", "4");
-		params.put("userID",userID);
+		params.put("userId",userID);
 		client.post(null, url, params, new HWResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject jo) {
@@ -95,7 +95,7 @@ public class OrderOperation {
 					JSONArray js = jo.getJSONArray("result");
 					for (int i = 0; i < js.length(); i++) {
 						JSONObject json = js.getJSONObject(i);
-						orderList.add(new Order(json.getString("orderID"),json.getString("userID"), 
+						orderList.add(new Order(json.getString("id"),json.getString("userID"), 
 								json.getString("restaurantId"),json.getString(" orderNum"), json.getString("restaurantName"), 
 								json.getString("restaurantAddress"),json.getString("restaurantPhone"),json.getString("orderTime")));
 					}

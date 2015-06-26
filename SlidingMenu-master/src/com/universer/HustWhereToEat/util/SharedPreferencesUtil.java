@@ -8,6 +8,7 @@ public class SharedPreferencesUtil {
 	public static final String USER_ID="userName";
 	public static final String SETTING="setting";
 	public static final String CURRENT_ACCOUNT="currenrAccount";
+	private static SharedPreferences setCurrentAccountSharedPreferences = null;
 	
 	public static SharedPreferences setUserSharedPreference(Context context,String userName){
 		SharedPreferences userSharedPreferences=context.getSharedPreferences(userName,Context.MODE_PRIVATE);
@@ -37,9 +38,9 @@ public class SharedPreferencesUtil {
 		return settingSharedPreferences;
 	}
 	
-	public static SharedPreferences setCurrentAccountSharedPreferences(Context context){
-		SharedPreferences setCurrentAccountSharedPreferences=context.getSharedPreferences(CURRENT_ACCOUNT,Context.MODE_PRIVATE);
-		return setCurrentAccountSharedPreferences;
+	public static void setCurrentAccountSharedPreferences(Context context){
+		setCurrentAccountSharedPreferences = context.getSharedPreferences(CURRENT_ACCOUNT,Context.MODE_PRIVATE);
+		return;
 	}
 	
 	public static String getCurrentUserStringShare(Context context,String key,String defaultValue){

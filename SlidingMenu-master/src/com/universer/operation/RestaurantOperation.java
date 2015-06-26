@@ -57,13 +57,14 @@ public class RestaurantOperation {
 								.getString("restaurantPhone");
 						String restaurantId = js.getString("id");
 						String address = js.getString("restaurantAddress");
+						String imgUrl = js.getString("imgUrl");
+						String price = js.getString("price");
 						res = new Restaurant(restaurantId, restaurantName,
-								null, address, restaurantPhone, true, null);
+								imgUrl, address, restaurantPhone, true, null,Double.parseDouble(price));
 						restaurants.add(res);
 					}
 
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				// 写入数据库
@@ -81,7 +82,6 @@ public class RestaurantOperation {
 							resDao.createOrUpdate(restaurant);
 						}
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -103,6 +103,8 @@ public class RestaurantOperation {
 		String restaurantName = res.getName();
 		String restaurantPhone = res.getPhone();
 		String restaurantAddress = res.getAddress();
+		String imgUrl = res.getImageUrl();
+		String price = Double.toString(res.getPrice());
 		RequestParams params = new RequestParams();
 		params.put("userId", userId);
 		params.put("code", "1");
@@ -110,6 +112,8 @@ public class RestaurantOperation {
 		params.put("restaurantName", restaurantName);
 		params.put("restaurantAddress", restaurantAddress);
 		params.put("restaurantPhone", restaurantPhone);
+		params.put("imgUrl",imgUrl);
+		params.put("price",price);
 		client.post(null, url, params, new HWResponseHandler() {
 
 			@Override
@@ -130,10 +134,8 @@ public class RestaurantOperation {
 						listener.onFailure("未知错误");
 					}
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -174,10 +176,8 @@ public class RestaurantOperation {
 						listener.onFailure("未知错误");
 					}
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -194,6 +194,7 @@ public class RestaurantOperation {
 		String url = "/processFavorite";
 		HWAsyncHttpClient client = new HWAsyncHttpClient();
 		RequestParams params = new RequestParams();
+		params.put("code","3");
 		params.put("userId", userId);
 		params.put("restaurantId", restaurantId);
 		client.post(null, url, params, new HWResponseHandler() {

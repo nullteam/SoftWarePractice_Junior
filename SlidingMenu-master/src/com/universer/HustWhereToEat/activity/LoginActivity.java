@@ -37,6 +37,7 @@ public class LoginActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		autoLogin();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
 
@@ -55,7 +56,10 @@ public class LoginActivity extends Activity {
 	private void autoLogin() {
 		factorOneStr = SharedPreferencesUtil.getCurrentUserStringShare(LoginActivity.this,"userName","");
 		factorTwoStr = SharedPreferencesUtil.getCurrentUserStringShare(LoginActivity.this,"password","");
-		if(!factorOneStr.isEmpty() && factorTwoStr.isEmpty()){
+		if(!factorOneStr.isEmpty() && !factorTwoStr.isEmpty()){
+			startActivity(factorOneStr, factorTwoStr);
+			this.finish();
+		}else{
 			requestLogin();
 		}
 	}
@@ -94,11 +98,8 @@ public class LoginActivity extends Activity {
 		opert.login(this,factorOneStr, factorTwoStr, new OperationListener<String>(){
 			@Override
 			public void onSuccess() {
-				Intent intent = new Intent();
-				intent.putExtra("one", factorOneStr);
-				intent.putExtra("two", factorTwoStr);
-				intent.setClass(LoginActivity.this, SlidingActivity.class);
-				LoginActivity.this.startActivity(intent);
+				startActivity(factorOneStr, factorTwoStr);
+				finish();
 			}
 			
 			@Override
@@ -132,6 +133,14 @@ public class LoginActivity extends Activity {
 		}
 
 		return false;
+	}
+	
+	private void startActivity(String name,String password){
+		Intent intent = new Intent();
+		intent.putExtra("one", name);
+		intent.putExtra("two", password);
+		intent.setClass(LoginActivity.this, SlidingActivity.class);
+		LoginActivity.this.startActivity(intent);
 	}
 
 	/** 监听对话框里面的button点击事件 */

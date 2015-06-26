@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 import com.loopj.android.http.RequestParams;
 import com.universer.HustWhereToEat.activity.LoginActivity;

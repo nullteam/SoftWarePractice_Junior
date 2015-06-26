@@ -42,7 +42,7 @@ public class DetailActivity extends Activity {
 	private Intent mIntent;
 //	List<String> comments;
 	private ListAdapter mListAdapter;
-	private int num = 0;
+	private int num = 1;
 	String restaurantName = null;
 	String restaurantAddress = null;
 	String restaurantId = null;
@@ -145,7 +145,7 @@ public class DetailActivity extends Activity {
 				RestaurantOperation resOperation = new RestaurantOperation();
 				List<String> commentList = new ArrayList<String>();
 				String userId = SharedPreferencesUtil.getCurrentUserStringShare(DetailActivity.this,"userName","");
-				Restaurant res = new Restaurant(restaurantId, restaurantName," ", restaurantAddress, restaurantPhone, isLike,commentList);
+				Restaurant res = new Restaurant(restaurantId, restaurantName," ", restaurantAddress, restaurantPhone, isLike,commentList,price);
 //				Restaurant res = new Restaurant("5ea1aa1c0dcid","KFC"," ","KFC","18202720293", isLike,commentList);
 				if(isLike){
 					resOperation.deleteMyLove(res, userId, new OperationListener<String>(){

@@ -25,13 +25,15 @@ public class Restaurant extends BaseDaoEnabled<Restaurant, String> {
 	private String comment;
 	@DatabaseField
 	private boolean isLike;
+	@DatabaseField
+	private double price;
 	private List<String> commentList;// 应该是个List集合 这里先不做这个处理
 
 	public Restaurant() {
 		
 	}
 	public Restaurant(String id, String name, String imageUrl, String address,
-			String phone, boolean isLike, List<String> commentList) {
+			String phone, boolean isLike, List<String> commentList,double price) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -40,8 +42,15 @@ public class Restaurant extends BaseDaoEnabled<Restaurant, String> {
 		this.phone = phone;
 		this.isLike = isLike;
 		this.setCommentList(commentList);
+		this.price = price;
 	}
 
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
 	public String getId() {
 		return id;
 	}
