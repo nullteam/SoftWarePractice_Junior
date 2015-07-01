@@ -2,7 +2,9 @@ package com.universer.HustWhereToEat.model;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.misc.BaseDaoEnabled;
-
+/*
+ * 订单model
+ */
 public class Order extends BaseDaoEnabled<Order, String> {
 	@DatabaseField(generatedId = true)
 	private int genId;

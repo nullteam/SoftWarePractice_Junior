@@ -52,6 +52,9 @@ public class LoginActivity extends Activity {
 		registButton = (Button) findViewById(R.id.regist_button);
 	}
 	
+	/*
+	 * 自动登录
+	 */
 	@SuppressLint("NewApi")
 	private void autoLogin() {
 		factorOneStr = SharedPreferencesUtil.getCurrentUserStringShare(LoginActivity.this,"userName","");
@@ -93,6 +96,9 @@ public class LoginActivity extends Activity {
 		});
 	}
 	
+	/*
+	 * 向服务器发送请求进行登录
+	 */
 	private void requestLogin(){
 		UserOperation opert = new UserOperation();
 		opert.login(this,factorOneStr, factorTwoStr, new OperationListener<String>(){
@@ -135,6 +141,9 @@ public class LoginActivity extends Activity {
 		return false;
 	}
 	
+	/*
+	 * 跳转到另一个界面
+	 */
 	private void startActivity(String name,String password){
 		Intent intent = new Intent();
 		intent.putExtra("one", name);

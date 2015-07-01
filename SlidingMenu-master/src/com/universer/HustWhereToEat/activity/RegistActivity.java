@@ -13,7 +13,9 @@ import android.widget.Toast;
 import com.universer.HustWhereToEat.R;
 import com.universer.HustWhereToEat.listener.OperationListener;
 import com.universer.operation.UserOperation;
-
+/*
+ * 注册界面
+ */
 public class RegistActivity extends Activity {
 	private Button registBtn;
 	private EditText user;

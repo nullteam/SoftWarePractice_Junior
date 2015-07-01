@@ -10,7 +10,9 @@ import com.universer.HustWhereToEat.http.HWAsyncHttpClient;
 import com.universer.HustWhereToEat.http.HWResponseHandler;
 import com.universer.HustWhereToEat.listener.OperationListener;
 import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
-
+/*
+ * 封装好的网络请求，用语反馈提交
+ */
 public class FeedBackOperation {
 	public void commitFeedback(String content,Context context,final OperationListener<String> listener){
 		String url = "/processFeedback";

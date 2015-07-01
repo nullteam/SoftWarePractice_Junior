@@ -48,6 +48,9 @@ import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.universer.HustWhereToEat.R;
 
+/*
+ * 地图界面
+ */
 public class SurroundActivity extends Activity implements
 		OnGetPoiSearchResultListener {
 	private BaiduMap mBaiduMap = null;
@@ -221,7 +224,7 @@ public class SurroundActivity extends Activity implements
 		    else {
 		        //检索成功
 		    	price = result.getPrice();
-		    	Log.v("detail_url", result.getDetailUrl());
+		    	Log.e("price", price+"");
 		    }
 	}
 

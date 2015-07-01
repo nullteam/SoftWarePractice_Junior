@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+/*
+ * 封装的SharedPreference，便于直接获取SharedPreference中的信息。
+ */
 public class SharedPreferencesUtil {
 	private static final String DATABASE_NAME = "hwsqlite.db";
 	public static final String USER_ID="userName";

@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
+/*
+ * 我的订单适配器
+ */
 public class MyOrderAdapter extends BaseAdapter {
 	private Context mContext;
 	private List<Order> orderList;

@@ -16,7 +16,9 @@ import com.universer.HustWhereToEat.activity.AboutActivity;
 import com.universer.HustWhereToEat.activity.FeedbackActivity;
 import com.universer.HustWhereToEat.activity.LoginActivity;
 import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
-
+/*
+ * 设置界面
+ */
 public class SettingFragment extends Fragment {
 	
 	private View showLeft;

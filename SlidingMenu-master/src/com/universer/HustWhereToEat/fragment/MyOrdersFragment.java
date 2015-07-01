@@ -27,7 +27,9 @@ import com.universer.HustWhereToEat.listener.OperationListener;
 import com.universer.HustWhereToEat.model.Order;
 import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
 import com.universer.operation.OrderOperation;
-
+/*
+ * 我的订单列表
+ */
 public class MyOrdersFragment extends Fragment {
 	
 	private View showLeft;

@@ -1,16 +1,11 @@
 package com.universer.HustWhereToEat.activity;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,15 +16,35 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.location.LocationClientOption.LocationMode;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
+import com.baidu.mapapi.search.core.PoiInfo;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
+import com.baidu.mapapi.search.poi.PoiBoundSearchOption;
+import com.baidu.mapapi.search.poi.PoiDetailResult;
+import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
+import com.baidu.mapapi.search.poi.PoiResult;
+import com.baidu.mapapi.search.poi.PoiSearch;
 import com.universer.HustWhereToEat.R;
+import com.universer.HustWhereToEat.adapter.RestaurantListAdapter;
 import com.universer.HustWhereToEat.listener.OperationListener;
 import com.universer.HustWhereToEat.model.Restaurant;
 import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
 import com.universer.operation.OrderOperation;
 import com.universer.operation.RestaurantOperation;
-import com.universer.operation.UserOperation;
-
-public class DetailActivity extends Activity {
+/*
+ * 餐馆详情界面
+ */
+public class DetailActivity extends Activity implements OnGetPoiSearchResultListener{
 	private Button orderBtn;
 	private TextView addressTxt;
 	private TextView phoneTxt;
@@ -51,6 +66,10 @@ public class DetailActivity extends Activity {
 	String restaurantPhone = null;
 	double price = 0;
 	private boolean isLike;
+	
+	private PoiSearch mPoiSearch = null;
+	private LocationClient mLocationClient = null;
+	private MyLocationData mLocationData;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +80,11 @@ public class DetailActivity extends Activity {
 		if (mIntent != null) {
 			initView();
 		}
-		
 		bindEvents();
+		
+		initLoc();
+		initPoi();
+		
 		queryLike(restaurantId);
 
 	}
@@ -82,6 +104,7 @@ public class DetailActivity extends Activity {
 		phoneTxt.setText(restaurantPhone);
 		nameTxt.setText(restaurantName);
 		priceTxt.setText(price+"元");
+		restautantImg.setImageDrawable(getResources().getDrawable(mIntent.getIntExtra("IMG",RestaurantListAdapter.drawable[0])));
 	}
 	
 	private void bindEvents() {
@@ -193,6 +216,9 @@ public class DetailActivity extends Activity {
 		priceTxt = (TextView)findViewById(R.id.editText2);
 	}
 	
+	/*
+	 * 搜索我的收藏的餐馆
+	 */
 	public void queryLike(String restaurantId){
 		String userId = SharedPreferencesUtil.getCurrentUserStringShare(DetailActivity.this,"userName","");
 		RestaurantOperation resOperation = new RestaurantOperation();
@@ -214,5 +240,116 @@ public class DetailActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+	}
+	
+	private BDLocationListener mLocationListener = new BDLocationListener() {
+		@Override
+		public void onReceiveLocation(BDLocation location) {
+			if (location == null) {
+				Log.v("LOC NULL", "noloc");
+				return;
+			}
+			animateToLoc(location);
+			mLocationClient.stop();
+
+		}
+
+		private void animateToLoc(BDLocation location) {
+			mLocationData = new MyLocationData.Builder()
+					.accuracy(location.getRadius()).direction(100)
+					.latitude(location.getLatitude())
+					.longitude(location.getLongitude()).build();
+			LatLng ll = new LatLng(location.getLatitude(),
+					location.getLongitude());
+			MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
+			
+			searchPoi();
+
+		}
+	};
+	
+	private void initPoi() {
+		// 初始化搜索模块，注册搜索事件监听
+		mPoiSearch = PoiSearch.newInstance();
+		mPoiSearch.setOnGetPoiSearchResultListener(this);
+	}
+	/*
+	 * POI检索
+	 */
+	private void searchPoi() {
+		PoiBoundSearchOption boundSearchOption = new PoiBoundSearchOption();
+		LatLng southwest = new LatLng(mLocationData.latitude - 0.01,
+				mLocationData.longitude - 0.012);// 西南
+		LatLng northeast = new LatLng(mLocationData.latitude + 0.01,
+				mLocationData.longitude + 0.012);// 东北
+		LatLngBounds bounds = new LatLngBounds.Builder().include(southwest)
+				.include(northeast).build();// 得到一个地理范围对象
+		boundSearchOption.bound(bounds);// 设置poi检索范围
+		boundSearchOption.keyword("美食");// 检索关键字
+		mPoiSearch.searchInBound(boundSearchOption);// 发起poi范围检索请求
+		// boundSearchOption.pageNum(page);
+		// mPoiSearch.searchNearby(new PoiNearbySearchOption().location(
+		// new LatLng(mLocationData.latitude, mLocationData.longitude)).
+		// keyword("美食"));
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener#onGetPoiDetailResult(com.baidu.mapapi.search.poi.PoiDetailResult)
+	 */
+	@Override
+	public void onGetPoiDetailResult(PoiDetailResult result) {
+		if (result.error != SearchResult.ERRORNO.NO_ERROR) {
+	        //详情检索失败
+	        // result.error请参考SearchResult.ERRORNO 
+	    }else {
+	        //检索成功
+	    	price = result.getPrice();
+	    	priceTxt.setText(Double.toString(price));
+//	    	Log.e("detailPrice",result.getPrice()+""+result.getUid()+":"+restaurantId);
+	    }
+		Log.e("detail","detail");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener#onGetPoiResult(com.baidu.mapapi.search.poi.PoiResult)
+	 */
+	@Override
+	public void onGetPoiResult(final PoiResult result) {
+		if (result == null
+				|| result.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
+			Toast.makeText(DetailActivity.this, "未找到结果", Toast.LENGTH_LONG)
+					.show();
+			return;
+		}
+		if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+			mPoiSearch.searchPoiDetail((new PoiDetailSearchOption()).poiUid(restaurantId));
+			Log.e("result", result.getAllPoi().size()+"");
+			return;
+		}
+	}
+	
+	/*
+	 * 初始化定位
+	 */
+	private void initLoc() {
+		//
+		mLocationClient = new LocationClient(DetailActivity.this);
+		mLocationClient.registerLocationListener(mLocationListener);
+		LocationClientOption option = new LocationClientOption();
+		option.setOpenGps(true);
+		option.setCoorType("bd09ll");// 返回的定位结果是百度经纬度,默认值gcj02
+		option.setScanSpan(5000);// 设置发起定位请求的间隔时间为5000ms
+		option.setAddrType("all");
+		option.setLocationMode(LocationMode.Hight_Accuracy);// 设置定位模式
+		option.setIsNeedAddress(true);// 返回的定位结果包含地址信息
+		option.setNeedDeviceDirect(true);// 返回的定位结果包含手机机头的方向
+		mLocationClient.setLocOption(option);
+		mLocationClient.start();
+		if (mLocationClient != null && mLocationClient.isStarted())
+			mLocationClient.requestLocation();
+		else
+			Log.d("LocSDK5", "locClient is null or not started");
 	}
 }

@@ -23,7 +23,9 @@ import com.universer.HustWhereToEat.listener.OperationListener;
 import com.universer.HustWhereToEat.model.Restaurant;
 import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
 import com.universer.operation.RestaurantOperation;
-
+/*
+ * 我喜欢的列表
+ */
 public class MyLoveFragment extends BaseFragment {
 
 	private View showLeft;
@@ -61,13 +63,13 @@ public class MyLoveFragment extends BaseFragment {
 				}
 				int realPosition = (int) id;
 				Restaurant tempRes = restaurantList.get(realPosition);
-				startActivity(tempRes);
+				startActivity(tempRes,realPosition);
 
 			}
 		});
 	}
 
-	protected void startActivity(Restaurant tempRes) {
+	protected void startActivity(Restaurant tempRes,int position) {
 
 		Intent i = new Intent(getActivity(), DetailActivity.class);
 		i.putExtra("ADDRESS", tempRes.getAddress());
@@ -75,6 +77,7 @@ public class MyLoveFragment extends BaseFragment {
 		i.putExtra("NAME", tempRes.getName());
 		i.putExtra("IMAGE", tempRes.getImageUrl());
 		i.putExtra("PRICE",tempRes.getPrice());
+		i.putExtra("IMG",RestaurantListAdapter.drawable[position % RestaurantListAdapter.drawable.length]);
 		i.putStringArrayListExtra("COMMENT",
 				(ArrayList<String>) tempRes.getCommentList());
 		getActivity().startActivity(i);

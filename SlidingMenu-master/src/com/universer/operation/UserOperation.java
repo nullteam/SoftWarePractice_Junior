@@ -14,7 +14,9 @@ import com.universer.HustWhereToEat.http.HWAsyncHttpClient;
 import com.universer.HustWhereToEat.http.HWResponseHandler;
 import com.universer.HustWhereToEat.listener.OperationListener;
 import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
-
+/*
+ * 封装了跟注册和登录有关的网络请求
+ */
 public class UserOperation {
 	public void regist(final Context context,final String name, final String password,
 			final OperationListener<String> listener) {

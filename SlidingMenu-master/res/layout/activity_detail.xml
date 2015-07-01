@@ -61,7 +61,6 @@
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@+id/editText1"
                 android:layout_centerVertical="true"
-                android:text="25RMB"
                 android:textSize="22sp" />
             
             <LinearLayout

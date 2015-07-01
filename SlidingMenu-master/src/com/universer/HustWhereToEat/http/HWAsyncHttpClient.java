@@ -19,7 +19,9 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.universer.HustWhereToEat.application.HWApplication;
 import com.universer.HustWhereToEat.util.Constant;
-
+/*
+ * 封装好的AsyncHttpClient
+ */
 public class HWAsyncHttpClient {
 	private static AsyncHttpClient mClient = new AsyncHttpClient();
 	private ProgressDialog dialog;

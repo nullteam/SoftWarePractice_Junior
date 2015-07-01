@@ -31,7 +31,9 @@ import android.widget.ListView;
 import com.universer.HustWhereToEat.R;
 import com.universer.HustWhereToEat.adapter.LeftAdapter;
 import com.universer.HustWhereToEat.util.IChangeFragment;
-
+/*
+ * 主界面左侧列表
+ */
 public class LeftFragment extends Fragment implements OnItemClickListener {
 
 	private static final String TAG = "LeftFragment";

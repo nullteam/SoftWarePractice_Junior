@@ -5,7 +5,9 @@ import java.util.List;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.misc.BaseDaoEnabled;
 import com.j256.ormlite.table.DatabaseTable;
-
+/*
+ * 餐馆model
+ */
 @DatabaseTable(tableName = "restaurant")
 public class Restaurant extends BaseDaoEnabled<Restaurant, String> {
 	@DatabaseField(generatedId = true)

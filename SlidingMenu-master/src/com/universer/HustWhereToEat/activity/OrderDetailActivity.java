@@ -14,7 +14,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.universer.HustWhereToEat.R;
-
+/*
+ * 订单详情界面
+ */
 public class OrderDetailActivity extends Activity {
 	private Intent mIntent;
 	private TextView resNameTxt;

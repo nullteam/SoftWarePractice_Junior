@@ -55,6 +55,9 @@ import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.universer.HustWhereToEat.R;
 
+/*
+ * 路线界面
+ */
 public class RoutelineActivity extends Activity implements
 		OnGetRoutePlanResultListener {
 	private final static int ROUTE_BUS = 0;

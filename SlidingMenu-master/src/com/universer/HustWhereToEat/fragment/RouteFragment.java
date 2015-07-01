@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.universer.HustWhereToEat.R;
 import com.universer.HustWhereToEat.activity.RoutelineActivity;
 import com.universer.HustWhereToEat.activity.SlidingActivity;
-
+/*
+ * 路线界面
+ */
 public class RouteFragment extends Fragment {
 	
 	private View showLeft;

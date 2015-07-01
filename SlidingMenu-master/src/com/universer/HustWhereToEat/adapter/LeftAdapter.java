@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.universer.HustWhereToEat.R;
 
-
+/*
+ * 主界面左边列表
+ */
 public class LeftAdapter extends BaseAdapter {
 	private List<String> leftTxtList;
 	private List<String> leftEngTxtList;

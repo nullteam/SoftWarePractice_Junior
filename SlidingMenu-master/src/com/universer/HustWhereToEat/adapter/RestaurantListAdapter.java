@@ -16,6 +16,10 @@ import com.universer.HustWhereToEat.model.Restaurant;
 public class RestaurantListAdapter extends BaseAdapter {
 	private Context mContext;
 	private List<com.universer.HustWhereToEat.model.Restaurant> restaurantList;
+	public static int drawable[] = {R.drawable.restaurant_cailinji,R.drawable.restaurant_coffee,R.drawable.restaurant_haidilao,
+			R.drawable.restaurant_jidanguanbing,R.drawable.restaurant_kaiweipijiuwu,R.drawable.restaurant_laosichuan,
+			R.drawable.restaurant_sanguo,R.drawable.restaurant_tianyuan,R.drawable.restaurant_xinchuancai,
+			R.drawable.restaurant_yaxuefensi};
 
 	public RestaurantListAdapter(Context mContext,
 			List<Restaurant> restaurantList) {
@@ -75,6 +79,7 @@ public class RestaurantListAdapter extends BaseAdapter {
 		}
 		childHolder.restaurantAddressTxt.setText(restaurantAddress);
 		childHolder.restaurantNameTxt.setText(restaurantName);
+		childHolder.restaurantImg.setImageDrawable(mContext.getResources().getDrawable(drawable[position % drawable.length]));
 		return convertView;
 	}
 

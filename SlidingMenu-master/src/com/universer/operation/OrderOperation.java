@@ -21,7 +21,9 @@ import com.universer.HustWhereToEat.listener.OperationListener;
 import com.universer.HustWhereToEat.model.Order;
 import com.universer.HustWhereToEat.model.Restaurant;
 import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
-
+/*
+ * 封装了跟订单有关的网络请求
+ */
 public class OrderOperation {
 
 	public void addOrder(final String userID, final String restaurantId,
@@ -110,6 +112,8 @@ public class OrderOperation {
 					try {
 						HWDataBaseHelper helper = HWDatabaseHelperManager.getInstance().getHelper();
 						Dao<Order, String> orderDao = helper.getOrderDao();
+						List<Order> tempList = orderDao.queryForAll();
+						orderDao.delete(tempList);
 //						DeleteBuilder<Order, String> deleteBuilder = orderDao.deleteBuilder();
 //						deleteBuilder.where().isNotNull("orderId");
 //						deleteBuilder.delete();

@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.universer.HustWhereToEat.R;
 import com.universer.HustWhereToEat.fragment.AllFragment;
@@ -18,11 +20,14 @@ import com.universer.HustWhereToEat.fragment.SettingFragment;
 import com.universer.HustWhereToEat.fragment.SurroundFragment;
 import com.universer.HustWhereToEat.util.IChangeFragment;
 import com.universer.HustWhereToEat.view.SlidingMenu;
-
+/*
+ * 主界面
+ */
 public class SlidingActivity extends FragmentActivity implements
 		IChangeFragment {
 
 	private static final String TAG = "SlidingActivity";
+	private long currentTime;
 
 	SlidingMenu mSlidingMenu;
 	LeftFragment leftFragment;
@@ -108,6 +113,21 @@ public class SlidingActivity extends FragmentActivity implements
 		}
 		t.replace(R.id.center_frame, fragment);
 		t.commit();
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(keyCode == KeyEvent.KEYCODE_BACK){
+			if((System.currentTimeMillis()-currentTime) > 2000){
+				Toast.makeText(this,"再按一次退出程序",Toast.LENGTH_SHORT).show();
+				currentTime = System.currentTimeMillis();
+			}else{
+				System.exit(0);
+			}
+			
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 }

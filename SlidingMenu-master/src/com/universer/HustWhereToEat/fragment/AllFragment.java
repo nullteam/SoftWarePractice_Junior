@@ -16,6 +16,7 @@
 package com.universer.HustWhereToEat.fragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -62,10 +63,16 @@ import com.universer.HustWhereToEat.activity.DetailActivity;
 import com.universer.HustWhereToEat.activity.SlidingActivity;
 import com.universer.HustWhereToEat.adapter.RestaurantListAdapter;
 import com.universer.HustWhereToEat.model.Restaurant;
-
+/*
+ * 周围餐馆列表
+ */
 public class AllFragment extends Fragment implements
 		OnRefreshListener<ListView>,OnGetPoiSearchResultListener{
 	private static final String TAG = "NewsFragment";
+	int drawable[] = {R.drawable.restaurant_cailinji,R.drawable.restaurant_coffee,R.drawable.restaurant_haidilao,
+			R.drawable.restaurant_jidanguanbing,R.drawable.restaurant_kaiweipijiuwu,R.drawable.restaurant_laosichuan,
+			R.drawable.restaurant_sanguo,R.drawable.restaurant_tianyuan,R.drawable.restaurant_xinchuancai,
+			R.drawable.restaurant_yaxuefensi};
 
 	private View showLeft;
 	private TextView mTopTitleView;
@@ -106,6 +113,7 @@ public class AllFragment extends Fragment implements
 		bindEvents();
 		iniView();
 		initLoc();
+		initPoi();
 		Log.e("start", "start");
 		return mView;
 	}
@@ -138,6 +146,9 @@ public class AllFragment extends Fragment implements
 				i.putExtra("NAME", restaurants.get(realPosition).getName());
 				i.putExtra("ID", restaurants.get(realPosition).getId());
 				i.putExtra("PRICE", price);
+//				i.putExtra("PRICE", priceMap.get(restaurants.get(realPosition).getId()));
+				
+				i.putExtra("IMG", drawable[realPosition % drawable.length]);
 				startActivity(i);
 			}
 			
@@ -226,7 +237,7 @@ public class AllFragment extends Fragment implements
 			LatLng ll = new LatLng(location.getLatitude(),
 					location.getLongitude());
 			MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
-			initPoi();
+			
 			searchPoi();
 
 		}
@@ -262,11 +273,14 @@ public class AllFragment extends Fragment implements
 	        // result.error请参考SearchResult.ERRORNO 
 	    }else {
 	        //检索成功
-	    	price = result.getPrice();
+//	    	price = result.getPrice();
 	    }
-//		this.price =  result.getPrice();
 	}
 
+	@Override
+	public void onHiddenChanged(boolean hidden) {
+		super.onHiddenChanged(hidden);
+	}
 	@Override
 	public void onGetPoiResult(final PoiResult result) {
 		if (result == null
@@ -278,7 +292,7 @@ public class AllFragment extends Fragment implements
 		if (result.error == SearchResult.ERRORNO.NO_ERROR) {
 			for (int i = 0; i < result.getAllPoi().size(); i++) {
 				PoiInfo info = result.getAllPoi().get(i);
-				mPoiSearch.searchPoiDetail((new PoiDetailSearchOption()).poiUid(info.uid));
+//				mPoiSearch.searchPoiDetail((new PoiDetailSearchOption()).poiUid(info.uid));
 				restaurants.add(new Restaurant(info.uid,info.name, " ", info.address, info.phoneNum, false,null,0));
 			}
 			

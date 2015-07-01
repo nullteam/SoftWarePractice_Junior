@@ -19,7 +19,9 @@ import com.universer.HustWhereToEat.http.HWAsyncHttpClient;
 import com.universer.HustWhereToEat.http.HWResponseHandler;
 import com.universer.HustWhereToEat.listener.OperationListener;
 import com.universer.HustWhereToEat.model.Restaurant;
-
+/*
+ * 封装了跟餐馆信息有关的网络请求
+ */
 public class RestaurantOperation {
 
 	public void getMyLove(String userId,

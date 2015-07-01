@@ -14,7 +14,9 @@ import com.universer.HustWhereToEat.model.Order;
 import com.universer.HustWhereToEat.model.Restaurant;
 import com.universer.HustWhereToEat.util.SharedPreferencesUtil;
 import com.universer.operation.RestaurantOperation;
-
+/*
+ * 本地缓存操作类
+ */
 public class HWDataBaseHelper extends OrmLiteSqliteOpenHelper {
 //	private static final String DATABASE_NAME = "hwsqlite.db";
 //	private static final String DATABASE_NAME = SharedPreferencesUtil.

@@ -45,7 +45,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:text="25RMB"
                 android:textSize="22sp" />
 
         </LinearLayout>

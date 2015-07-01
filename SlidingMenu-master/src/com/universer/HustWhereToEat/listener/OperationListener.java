@@ -1,7 +1,9 @@
 package com.universer.HustWhereToEat.listener;
 
 import java.util.List;
-
+/*
+ * 封装好的http listener
+ */
 public class OperationListener<E> {
 	public void onStart() {
 	}
